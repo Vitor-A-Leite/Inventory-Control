@@ -1,0 +1,85 @@
+# TODO — Quadro Kanban: Controle de Estoque (12 semanas)
+
+## Semana 1 — Fundamentos e Planejamento
+- [x] Instalar Python, Node, Docker, PostgreSQL @done(24-01-15)
+✔ [ ] Entender o problema do negócio @done(26-02-17 17:07)
+✔ [ ] Definir funcionalidades do MVP @done(26-02-17 17:07)
+✔ [ ] Estudar conceitos básicos (HTTP, API, REST) @done(26-02-17 17:07)
+✔ [ ] Criar repositório Git @done(26-02-17 17:07)
+✔ [ ] Documentar visão geral do sistema @done(26-02-17 17:07)
+
+## Semana 2 — Modelagem e Arquitetura
+✔ [ ] Definir entidades (Produto, Lote, Consumo, Usuário) @done(26-02-17 17:07)
+✔ [ ] Modelar banco de dados (DER) @done(26-02-17 17:07)
+✔ [ ] Definir regras de negócio @done(26-02-17 17:07)
+- [ ] Criar diagramas simples de fluxo @started(26-02-17 17:08)
+✔ [ ] Definir estrutura de pastas @done(26-02-17 17:07)
+
+## Semana 3 — Setup Backend (Django)
+✔ [ ] Criar projeto Django @started(26-02-17 17:07) @done(26-02-17 19:02) @lasted(1h55m21s)
+✔ [ ] Criar app principal @started(26-02-17 17:07) @done(26-02-17 19:02) @lasted(1h55m17s)
+✔ [ ] Configurar PostgreSQL @started(26-02-17 17:07) @done(26-02-17 19:02) @lasted(1h55m39s)
+✔ [ ] Criar models iniciais @started(26-02-17 17:07) @done(26-02-17 19:02) @lasted(1h55m39s)
+✔ [ ] Rodar migrações @started(26-02-17 17:07) @done(26-02-17 19:02) @lasted(1h55m38s)
+- [ ] Criar superusuário @started(26-02-17 19:03)
+
+## Semana 4 — API com Django REST Framework
+- [ ] Instalar DRF
+- [ ] Criar serializers
+- [ ] Criar ViewSets
+- [ ] Criar rotas da API
+- [ ] Testar API no Postman/Insomnia
+
+## Semana 5 — Regras de Negócio (Estoque)
+- [ ] Endpoint de entrada de produtos
+- [ ] Endpoint de consumo
+- [ ] Atualizar estoque automaticamente
+- [ ] Criar validações de quantidade
+- [ ] Testar cenários reais
+
+## Semana 6 — QR Code
+- [ ] Gerar identificador único
+- [ ] Gerar QR Code no backend
+- [ ] Salvar QR Code
+- [ ] Endpoint de leitura do QR
+- [ ] Testar leitura do QR
+
+## Semana 7 — Autenticação e Permissões
+- [ ] Implementar JWT
+- [ ] Endpoint de login
+- [ ] Endpoint de logout
+- [ ] Proteger rotas da API
+- [ ] Testar permissões
+
+## Semana 8 — Setup Frontend (React)
+- [ ] Criar projeto React
+- [ ] Configurar Axios
+- [ ] Tela de login
+- [ ] Tela de produtos
+- [ ] Cadastro de produto
+
+## Semana 9 — Fluxo de Consumo (Frontend)
+- [ ] Leitura de QR Code via câmera
+- [ ] Tela de confirmação de consumo
+- [ ] Enviar consumo para API
+- [ ] Atualizar estoque na tela
+
+## Semana 10 — Alertas de Vencimento
+- [ ] Lógica de vencimento no backend
+- [ ] Endpoint de alertas
+- [ ] Tela de alertas no frontend
+- [ ] Destaque visual (cores/avisos)
+
+## Semana 11 — Docker e Deploy
+- [ ] Dockerfile backend
+- [ ] Dockerfile frontend
+- [ ] docker-compose.yml
+- [ ] Subir sistema completo
+- [ ] Preparar deploy
+
+## Semana 12 — Finalização
+- [ ] Testes básicos
+- [ ] Correção de bugs
+- [ ] Melhorar UX
+- [ ] Criar README
+- [ ] Documentar API
