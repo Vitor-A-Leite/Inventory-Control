@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'alerts',
     'consumption',
     'core',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
