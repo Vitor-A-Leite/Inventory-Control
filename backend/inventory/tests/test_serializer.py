@@ -33,3 +33,4 @@ class BatchSerializerTests(TestCase):
             s.errors["quantity"][0],
             "A quantidade deve ser maior que zero."
         )
+        

@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from .models import Batch
+from .serializers import BatchSerializer
+
+
+class BatchViewSet(ModelViewSet):
+    queryset = Batch.objects.select_related("product").all().order_by("-created_at")
+    serializer_class = BatchSerializer

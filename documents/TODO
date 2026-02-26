@@ -27,9 +27,9 @@
 ✔ [ ] Instalar DRF @started(26-02-23 19:57) @done(26-02-23 19:57) @lasted(5s)
     ✔ [ ] Estudar documentação oficial @started(26-02-23 19:17) @est(2h) @done(26-02-23 19:51) @lasted(34m46s)
 ✔ [ ] Criar serializers + testar eles @started(26-02-23 19:58) @done(26-02-25 14:58) @lasted(1d19h39s)
-- [ ] Criar ViewSets
-- [ ] Criar rotas da API
-- [ ] Testar API no Postman/Insomnia
+✔ [ ] Criar ViewSets @started(26-02-25 15:05) @done(26-02-25 21:00) @lasted(5h55m57s)
+✔ [ ] Criar rotas da API @done(26-02-25 21:00)
+- [ ] Testar API no Postman/Insomnia @started(26-02-25 21:02)
 
 ## Semana 5 — Regras de Negócio (Estoque)
 - [ ] Endpoint de entrada de produtos
