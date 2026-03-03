@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Consumption
@@ -11,7 +12,8 @@ class ConsumptionViewSet(ModelViewSet):
         .order_by("-created_at")
     )
     serializer_class = ConsumptionSerializer
+    permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "post", "head", "options"]
 
     def perform_create(self, serializer):
-        user = self.request.user if self.request.user.is_authenticated else None
-        serializer.save(used_by=user)
+        serializer.save(used_by=self.request.user)

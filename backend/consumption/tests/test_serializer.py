@@ -1,6 +1,7 @@
 from django.test import TestCase
+from django.utils import timezone
+
 from consumption.serializers import ConsumptionSerializer
-from consumption.models import Consumption
 from inventory.models import Batch
 from products.models import Product, Category, Unit
 from users.models import User
@@ -43,3 +44,28 @@ class ConsumptionSerializerTests(TestCase):
         })
         assert s.is_valid(), s.errors
 
+    def test_create_reduces_batch_quantity(self):
+        s = ConsumptionSerializer(data={
+            "batch": self.batch.id,
+            "quantity_used": 4,
+        })
+        assert s.is_valid(), s.errors
+        consumption = s.save(used_by=self.user)
+
+        self.batch.refresh_from_db()
+        self.assertEqual(consumption.quantity_used, 4)
+        self.assertEqual(self.batch.quantity, 6)
+
+    def test_create_blocks_expired_batch(self):
+        expired_batch = Batch.objects.create(
+            product=self.product,
+            quantity=10,
+            expiration_date=timezone.localdate() - timezone.timedelta(days=1),
+            qr_code="QR-EXPIRED-1",
+        )
+        s = ConsumptionSerializer(data={
+            "batch": expired_batch.id,
+            "quantity_used": 1,
+        })
+        assert not s.is_valid()
+        assert "batch" in s.errors

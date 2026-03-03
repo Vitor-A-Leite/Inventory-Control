@@ -33,7 +33,7 @@
 
 ## Semana 5 — Regras de Negócio (Estoque)
 ✔ [ ] Endpoint de entrada de produtos @started(26-03-02 16:50) @done(26-03-02 18:11) @lasted(1h21m3s)
-✔ [ ] Consertar API de consumption (parece que está dando errado) @started(26-03-02 18:11) @done(26-03-03 11:04) @lasted(16h53m8s)
+✘ [ ] Consertar API de consumption (parece que está dando errado) @started(26-03-02 18:11) @cancelled(26-03-03 19:04) @wasted(1d53m20s)
 ✔ [ ] Endpoint de consumo @started(26-03-03 15:34) @done(26-03-03 15:34) @lasted(56s)
 - [ ] Atualizar estoque automaticamente
 - [ ] Criar validações de quantidade
