@@ -1,7 +1,6 @@
 from django.db import transaction
 from django.utils import timezone
 from rest_framework import serializers
-
 from .models import Consumption
 from inventory.models import Batch
 from products.models import Product

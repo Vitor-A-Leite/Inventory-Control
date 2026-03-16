@@ -1,7 +1,7 @@
 # TODO — Quadro Kanban: Controle de Estoque (12 semanas)
 
 ## Semana 1 — Fundamentos e Planejamento
-- [x] Instalar Python, Node, Docker, PostgreSQL @done(24-01-15)
+✔ [ ] Instalar Python, Node, Docker, PostgreSQL @done(24-01-15)
 ✔ [ ] Entender o problema do negócio @done(26-02-17 17:07)
 ✔ [ ] Definir funcionalidades do MVP @done(26-02-17 17:07)
 ✔ [ ] Estudar conceitos básicos (HTTP, API, REST) @done(26-02-17 17:07)
@@ -33,11 +33,11 @@
 
 ## Semana 5 — Regras de Negócio (Estoque)
 ✔ [ ] Endpoint de entrada de produtos @started(26-03-02 16:50) @done(26-03-02 18:11) @lasted(1h21m3s)
-✘ [ ] Consertar API de consumption (parece que está dando errado) @started(26-03-02 18:11) @cancelled(26-03-03 19:04) @wasted(1d53m20s)
 ✔ [ ] Endpoint de consumo @started(26-03-03 15:34) @done(26-03-03 15:34) @lasted(56s)
-- [ ] Atualizar estoque automaticamente
-- [ ] Criar validações de quantidade
-- [ ] Testar cenários reais
+✔ [ ] Atualizar estoque automaticamente @started(26-03-03 18:30) @done(26-03-03 23:30) @lasted(5h37s)
+✔ [ ] Criar as autenticações de funcionários para registrar os consumo e entradas de mercadorias @done(26-03-15 11:51)
+✔ [ ] Criar validações de quantidade @done(26-03-15 11:51)
+✔ [ ] Testar cenários reais @done(26-03-15 11:51)
 
 ## Semana 6 — QR Code
 - [ ] Gerar identificador único
