@@ -40,7 +40,8 @@
 ✔ [ ] Testar cenários reais @done(26-03-15 11:51)
 
 ## Semana 6 — QR Code
-- [ ] Gerar identificador único
+✔ [ ] Gerar identificador único @done(26-03-15 23:04)
+✔ [ ] Criar bot de geração de dados para consumo, produtos, e inventários @done(26-03-16 00:36)
 - [ ] Gerar QR Code no backend
 - [ ] Salvar QR Code
 - [ ] Endpoint de leitura do QR
@@ -73,7 +74,7 @@
 - [ ] Destaque visual (cores/avisos)
 
 ## Semana 11 — Docker e Deploy
-- [ ] Dockerfile backend
+☐ [ ] Dockerfile backend
 - [ ] Dockerfile frontend
 - [ ] docker-compose.yml
 - [ ] Subir sistema completo
