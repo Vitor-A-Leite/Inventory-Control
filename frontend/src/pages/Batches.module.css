@@ -47,6 +47,22 @@
   font-size: 0.9rem;
 }
 
+.btnScanner {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnScanner:hover {
+  background: #f9fafb;
+}
+
 .btnPrimary {
   padding: 0.5rem 1rem;
   background: #3b82f6;

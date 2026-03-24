@@ -55,13 +55,16 @@
 ✔ [ ] Testar permissões @done(26-03-23 19:03)
 
 ## Semana 8 — Setup Frontend (React)
-- [ ] Criar projeto React
-- [ ] Configurar Axios
-- [ ] Tela de login
-- [ ] Tela de produtos
-- [ ] Cadastro de produto
+✔ [ ] Criar projeto React @done(26-03-24 10:34)
+✔ [ ] Configurar Axios @done(26-03-24 10:35)
+✔ [ ] Tela de login @done(26-03-24 10:35)
+✔ [ ] Tela de produtos @done(26-03-24 10:35)
+✔ [ ] Cadastro de produto @done(26-03-24 10:35)
 
 ## Semana 9 — Fluxo de Consumo (Frontend)
+- [ ] Gerar QR code de produtos no front end
+- [ ] Exibir QR code na tela de produto
+- [ ] Criar função de impressão de QR code
 - [ ] Leitura de QR Code via câmera
 - [ ] Tela de confirmação de consumo
 - [ ] Enviar consumo para API
@@ -74,9 +77,9 @@
 - [ ] Destaque visual (cores/avisos)
 
 ## Semana 11 — Docker e Deploy
+☐ [ ] Dockerfile frontend
 ☐ [ ] Dockerfile backend
-- [ ] Dockerfile frontend
-- [ ] docker-compose.yml
+☐ [ ] docker-compose.yml
 - [ ] Subir sistema completo
 - [ ] Preparar deploy
 

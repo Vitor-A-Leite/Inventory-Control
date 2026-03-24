@@ -23,6 +23,9 @@ export default function Products() {
         <h1 className={styles.title}>Produtos</h1>
         <div className={styles.actions}>
           <span className={styles.username}>Olá, {user?.username}</span>
+          <Link className={styles.btnSecondary} to="/scanner">
+            Escanear QR
+          </Link>
           <Link className={styles.btnSecondary} to="/lotes">
             Lotes
           </Link>

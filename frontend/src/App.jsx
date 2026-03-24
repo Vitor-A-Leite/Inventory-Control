@@ -6,6 +6,8 @@ import Products from './pages/Products'
 import ProductForm from './pages/ProductForm'
 import Batches from './pages/Batches'
 import ConsumptionForm from './pages/ConsumptionForm'
+import Scanner from './pages/Scanner'
+import ConsumptionConfirm from './pages/ConsumptionConfirm'
 
 export default function App() {
   return (
@@ -42,6 +44,22 @@ export default function App() {
             element={
               <PrivateRoute>
                 <ConsumptionForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/scanner"
+            element={
+              <PrivateRoute>
+                <Scanner />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/consumos/confirmar"
+            element={
+              <PrivateRoute>
+                <ConsumptionConfirm />
               </PrivateRoute>
             }
           />

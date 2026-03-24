@@ -39,6 +39,12 @@ export default function Batches() {
         <div className={styles.actions}>
           <span className={styles.username}>Olá, {user?.username}</span>
           <button
+            className={styles.btnScanner}
+            onClick={() => navigate('/scanner')}
+          >
+            Escanear QR
+          </button>
+          <button
             className={styles.btnPrimary}
             onClick={() => navigate('/consumos/novo')}
           >
