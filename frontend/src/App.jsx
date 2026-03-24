@@ -4,6 +4,8 @@ import PrivateRoute from './components/PrivateRoute'
 import Login from './pages/Login'
 import Products from './pages/Products'
 import ProductForm from './pages/ProductForm'
+import Batches from './pages/Batches'
+import ConsumptionForm from './pages/ConsumptionForm'
 
 export default function App() {
   return (
@@ -24,6 +26,22 @@ export default function App() {
             element={
               <PrivateRoute>
                 <ProductForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/lotes"
+            element={
+              <PrivateRoute>
+                <Batches />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/consumos/novo"
+            element={
+              <PrivateRoute>
+                <ConsumptionForm />
               </PrivateRoute>
             }
           />

@@ -12,6 +12,23 @@
   justify-content: space-between;
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.back {
+  color: #3b82f6;
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
 .title {
   font-size: 1.4rem;
   font-weight: 700;
@@ -30,30 +47,15 @@
   font-size: 0.9rem;
 }
 
-.btnSecondary {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.btnSecondary:hover {
-  background: #f9fafb;
-}
-
 .btnPrimary {
   padding: 0.5rem 1rem;
   background: #3b82f6;
   color: #fff;
+  border: none;
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.9rem;
-  text-decoration: none;
+  cursor: pointer;
   transition: background 0.2s;
 }
 
@@ -78,7 +80,7 @@
 
 .main {
   padding: 2rem;
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -126,4 +128,51 @@
 
 .table tr:last-child td {
   border-bottom: none;
+}
+
+/* Badges de status */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.warning {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.expired {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Botão por linha */
+.btnConsume {
+  padding: 0.35rem 0.85rem;
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btnConsume:hover:not(:disabled) {
+  background: #e0f2fe;
+}
+
+.btnConsume:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
