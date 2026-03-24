@@ -62,13 +62,13 @@
 ✔ [ ] Cadastro de produto @done(26-03-24 10:35)
 
 ## Semana 9 — Fluxo de Consumo (Frontend)
-- [ ] Gerar QR code de produtos no front end
-- [ ] Exibir QR code na tela de produto
-- [ ] Criar função de impressão de QR code
-- [ ] Leitura de QR Code via câmera
-- [ ] Tela de confirmação de consumo
-- [ ] Enviar consumo para API
-- [ ] Atualizar estoque na tela
+✔ [ ] Gerar QR code de produtos no front end @done(26-03-24)
+✔ [ ] Exibir QR code na tela de produto @done(26-03-24)
+✔ [ ] Criar função de impressão de QR code @done(26-03-24)
+✔ [ ] Leitura de QR Code via câmera @done(26-03-24)
+✔ [ ] Tela de confirmação de consumo @done(26-03-24)
+✔ [ ] Enviar consumo para API @done(26-03-24)
+✔ [ ] Atualizar estoque na tela @done(26-03-24)
 
 ## Semana 10 — Alertas de Vencimento
 - [ ] Lógica de vencimento no backend

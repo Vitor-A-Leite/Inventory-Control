@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../api/axios'
+import QrCodeModal from '../components/QrCodeModal'
 import styles from './Batches.module.css'
 
 function expirationStatus(dateStr) {
@@ -21,6 +22,7 @@ export default function Batches() {
   const [batches, setBatches] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [qrBatch, setQrBatch] = useState(null)
 
   useEffect(() => {
     api.get('/inventory/batches/')
@@ -31,6 +33,7 @@ export default function Batches() {
 
   return (
     <div className={styles.page}>
+      {qrBatch && <QrCodeModal batch={qrBatch} onClose={() => setQrBatch(null)} />}
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <Link className={styles.back} to="/produtos">← Produtos</Link>
@@ -71,6 +74,7 @@ export default function Batches() {
                 <th>Validade</th>
                 <th>Status</th>
                 <th>Cadastrado em</th>
+                <th>QR</th>
                 <th></th>
               </tr>
             </thead>
@@ -88,6 +92,15 @@ export default function Batches() {
                       </span>
                     </td>
                     <td>{new Date(b.created_at).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                      <button
+                        className={styles.btnQr}
+                        onClick={() => setQrBatch(b)}
+                        title="Exibir QR code"
+                      >
+                        QR
+                      </button>
+                    </td>
                     <td>
                       <button
                         className={styles.btnConsume}

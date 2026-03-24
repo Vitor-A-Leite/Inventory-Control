@@ -1,0 +1,103 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 320px;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.close:hover {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+.printArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.productName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  text-align: center;
+}
+
+.qrValue {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-family: monospace;
+  margin: 0;
+}
+
+.expiration {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.btnPrint {
+  width: 100%;
+  padding: 0.7rem;
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnPrint:hover {
+  background: #0f172a;
+}
+
+/* Impressão: esconde tudo exceto o QR */
+@media print {
+  body > * {
+    display: none !important;
+  }
+
+  #qr-print-area {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    inset: 0;
+    justify-content: center;
+  }
+}
