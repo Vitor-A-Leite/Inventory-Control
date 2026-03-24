@@ -13,7 +13,7 @@ class ProductBasicSerializer(serializers.ModelSerializer):
 class BatchSerializer(serializers.ModelSerializer):
     product_details = ProductBasicSerializer(source="product", read_only=True)
 
-    class Meta:
+    class Meta: 
         model = Batch
         fields = [
             "id",

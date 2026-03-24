@@ -42,17 +42,17 @@
 ## Semana 6 — QR Code
 ✔ [ ] Gerar identificador único @done(26-03-15 23:04)
 ✔ [ ] Criar bot de geração de dados para consumo, produtos, e inventários @done(26-03-16 00:36)
-- [ ] Gerar QR Code no backend
-- [ ] Salvar QR Code
-- [ ] Endpoint de leitura do QR
-- [ ] Testar leitura do QR
+✘ [ ] Gerar QR Code no backend @cancelled(26-03-17 00:04)
+✘ [ ] Salvar QR Code @cancelled(26-03-17 00:04)
+✔ [ ] Endpoint de leitura do QR @done(26-03-17 00:04)
+✘ [ ] Testar leitura do QR @cancelled(26-03-17 00:04)
 
 ## Semana 7 — Autenticação e Permissões
-- [ ] Implementar JWT
-- [ ] Endpoint de login
-- [ ] Endpoint de logout
-- [ ] Proteger rotas da API
-- [ ] Testar permissões
+✔ [ ] Implementar JWT @done(26-03-23 19:03)
+✔ [ ] Endpoint de login @done(26-03-23 19:03)
+✔ [ ] Endpoint de logout @done(26-03-23 19:03)
+✔ [ ] Proteger rotas da API @done(26-03-23 19:03)
+✔ [ ] Testar permissões @done(26-03-23 19:03)
 
 ## Semana 8 — Setup Frontend (React)
 - [ ] Criar projeto React
