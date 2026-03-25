@@ -34,6 +34,14 @@ export default function Products() {
           <Link className={styles.btnSecondary} to="/lotes">
             Lotes
           </Link>
+          <Link className={styles.btnSecondary} to="/historico">
+            Histórico
+          </Link>
+          {user?.role === 'ADMIN' && (
+            <Link className={styles.btnSecondary} to="/usuarios">
+              Usuários
+            </Link>
+          )}
           <Link className={styles.btnPrimary} to="/produtos/novo">
             + Novo produto
           </Link>

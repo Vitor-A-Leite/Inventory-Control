@@ -8,6 +8,8 @@ import Batches from './pages/Batches'
 import ConsumptionForm from './pages/ConsumptionForm'
 import Scanner from './pages/Scanner'
 import ConsumptionConfirm from './pages/ConsumptionConfirm'
+import Users from './pages/Users'
+import ConsumptionHistory from './pages/ConsumptionHistory'
 
 export default function App() {
   return (
@@ -60,6 +62,22 @@ export default function App() {
             element={
               <PrivateRoute>
                 <ConsumptionConfirm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/usuarios"
+            element={
+              <PrivateRoute>
+                <Users />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/historico"
+            element={
+              <PrivateRoute>
+                <ConsumptionHistory />
               </PrivateRoute>
             }
           />

@@ -70,7 +70,20 @@
 ✔ [ ] Enviar consumo para API @done(26-03-24)
 ✔ [ ] Atualizar estoque na tela @done(26-03-24)
 
+## Semana 9.5 - Telas de usuários e permissões                                                             
+### Backend — novo endpoint POST /api/users/                          
+✔ [ ]Recebe username, password, first_name, last_name, role, @done(26-03-25 13:37)
+### consumer_id
+✔ [ ] Restrito a usuários com role ADMIN @done(26-03-25 13:37)
+✔ [ ] Valida que consumer_id seja único e no range 1–999 @done(26-03-25 13:37)
+### Frontend — tela "Gerenciar Usuários" (só visível para ADMIN)      
+✔ [ ] Listagem dos usuários existentes @done(26-03-25 13:38)
+✔ [ ] Formulário para criar novo usuário com os campos acima @done(26-03-25 13:38)
+✔ [ ] Campos importantes: role (ADMIN / MANAGER / EMPLOYEE) e @done(26-03-25 13:38)
+✔ [ ] Adicionar obrigatoriedade do funcinários de fornecer o consumer_id antes de atualizar a base de dados com o consumo @done(26-03-25 13:38)
+
 ## Semana 10 — Alertas de Vencimento
+✔ [ ] View de histórico de consumos com filtros pra data, categoria de produto, produto @done(26-03-25 13:48)
 - [ ] Lógica de vencimento no backend
 - [ ] Endpoint de alertas
 - [ ] Tela de alertas no frontend

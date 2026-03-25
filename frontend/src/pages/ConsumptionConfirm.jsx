@@ -9,9 +9,24 @@ export default function ConsumptionConfirm() {
   const batch = state?.batch
 
   const [quantity, setQuantity] = useState('')
+  const [consumerId, setConsumerId] = useState('')
+  const [employee, setEmployee] = useState(null)   // { username, first_name, ... }
+  const [employeeError, setEmployeeError] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+
+  async function validateConsumerId(value) {
+    setEmployee(null)
+    setEmployeeError('')
+    if (!value || isNaN(value)) return
+    try {
+      const { data } = await api.post('/users/validate-consumer-id/', { consumer_id: Number(value) })
+      setEmployee(data)
+    } catch {
+      setEmployeeError('ID não encontrado.')
+    }
+  }
 
   // Sem dados de lote: veio direto pela URL sem passar pelo scanner
   if (!batch) {
@@ -41,6 +56,10 @@ export default function ConsumptionConfirm() {
     setError('')
 
     const qty = parseFloat(quantity)
+    if (!consumerId || !employee) {
+      setError('Informe um ID de funcionário válido.')
+      return
+    }
     if (!qty || qty <= 0) {
       setError('A quantidade deve ser maior que zero.')
       return
@@ -55,6 +74,7 @@ export default function ConsumptionConfirm() {
       await api.post('/consumption/consumptions/', {
         batch: batch.id,
         quantity_used: qty,
+        consumer_id: Number(consumerId),
       })
       setSuccess(true)
     } catch (err) {
@@ -156,6 +176,34 @@ export default function ConsumptionConfirm() {
             {error && <p className={styles.error}>{error}</p>}
 
             <label className={styles.label}>
+              ID do funcionário
+              <input
+                className={styles.input}
+                type="number"
+                value={consumerId}
+                onChange={(e) => {
+                  setConsumerId(e.target.value)
+                  setEmployee(null)
+                  setEmployeeError('')
+                }}
+                onBlur={(e) => validateConsumerId(e.target.value)}
+                min="1"
+                max="999"
+                placeholder="Ex: 42"
+                required
+                autoFocus
+              />
+              {employee && (
+                <span className={styles.employeeFound}>
+                  ✓ {[employee.first_name, employee.last_name].filter(Boolean).join(' ') || employee.username}
+                </span>
+              )}
+              {employeeError && (
+                <span className={styles.employeeError}>{employeeError}</span>
+              )}
+            </label>
+
+            <label className={styles.label}>
               Quantidade consumida
               <input
                 className={styles.input}
@@ -166,7 +214,6 @@ export default function ConsumptionConfirm() {
                 max={batch.quantity}
                 step="any"
                 placeholder="0"
-                autoFocus
                 required
               />
             </label>
