@@ -16,9 +16,12 @@ class UnitSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "updated_at"]
 
 class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name', read_only=True)
+    unit_abbreviation = serializers.CharField(source='unit.abbreviation', read_only=True)
+
     class Meta:
         model = Product
-        fields = ["id", "name", "category", "unit", "minimum_stock", "created_at", "updated_at"]
+        fields = ["id", "name", "category", "category_name", "unit", "unit_abbreviation", "minimum_stock", "created_at", "updated_at"]
         read_only_fields = ["id", "created_at", "updated_at"]
 
     def validate_minimum_stock(self, value):

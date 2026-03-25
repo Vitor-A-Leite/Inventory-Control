@@ -79,6 +79,12 @@
   border-color: #3b82f6;
 }
 
+.noResults {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
 .loading {
   color: #94a3b8;
   font-size: 0.88rem;

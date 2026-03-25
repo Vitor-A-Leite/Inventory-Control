@@ -20,9 +20,14 @@ export default function Batches() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [batches, setBatches] = useState([])
+  const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [qrBatch, setQrBatch] = useState(null)
+
+  const filtered = batches.filter((b) =>
+    (b.product_details?.name ?? '').toLowerCase().includes(search.toLowerCase())
+  )
 
   useEffect(() => {
     api.get('/inventory/batches/')
@@ -58,14 +63,24 @@ export default function Batches() {
       </header>
 
       <main className={styles.main}>
+        <input
+          className={styles.search}
+          type="search"
+          placeholder="Buscar por produto..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
         {loading && <p className={styles.info}>Carregando...</p>}
         {error && <p className={styles.error}>{error}</p>}
 
-        {!loading && !error && batches.length === 0 && (
-          <p className={styles.info}>Nenhum lote cadastrado ainda.</p>
+        {!loading && !error && filtered.length === 0 && (
+          <p className={styles.info}>
+            {search ? 'Nenhum lote encontrado para essa busca.' : 'Nenhum lote cadastrado ainda.'}
+          </p>
         )}
 
-        {batches.length > 0 && (
+        {filtered.length > 0 && (
           <table className={styles.table}>
             <thead>
               <tr>
@@ -74,12 +89,13 @@ export default function Batches() {
                 <th>Validade</th>
                 <th>Status</th>
                 <th>Cadastrado em</th>
+                <th>Atualizado em</th>
                 <th>QR</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {batches.map((b) => {
+              {filtered.map((b) => {
                 const status = expirationStatus(b.expiration_date)
                 return (
                   <tr key={b.id}>
@@ -92,6 +108,7 @@ export default function Batches() {
                       </span>
                     </td>
                     <td>{new Date(b.created_at).toLocaleDateString('pt-BR')}</td>
+                    <td>{new Date(b.updated_at).toLocaleDateString('pt-BR')}</td>
                     <td>
                       <button
                         className={styles.btnQr}

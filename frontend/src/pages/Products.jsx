@@ -7,8 +7,13 @@ import styles from './Products.module.css'
 export default function Products() {
   const { user, logout } = useAuth()
   const [products, setProducts] = useState([])
+  const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  const filtered = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  )
 
   useEffect(() => {
     api.get('/products/')
@@ -39,14 +44,24 @@ export default function Products() {
       </header>
 
       <main className={styles.main}>
+        <input
+          className={styles.search}
+          type="search"
+          placeholder="Buscar produto..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
         {loading && <p className={styles.info}>Carregando...</p>}
         {error && <p className={styles.error}>{error}</p>}
 
-        {!loading && !error && products.length === 0 && (
-          <p className={styles.info}>Nenhum produto cadastrado ainda.</p>
+        {!loading && !error && filtered.length === 0 && (
+          <p className={styles.info}>
+            {search ? 'Nenhum produto encontrado para essa busca.' : 'Nenhum produto cadastrado ainda.'}
+          </p>
         )}
 
-        {products.length > 0 && (
+        {filtered.length > 0 && (
           <table className={styles.table}>
             <thead>
               <tr>
@@ -57,12 +72,12 @@ export default function Products() {
               </tr>
             </thead>
             <tbody>
-              {products.map((p) => (
+              {filtered.map((p) => (
                 <tr key={p.id}>
                   <td>{p.name}</td>
                   <td>{p.category_name ?? p.category}</td>
-                  <td>{p.unit_abbreviation ?? p.unit}</td>
                   <td>{p.minimum_stock}</td>
+                  <td>{p.unit_abbreviation ?? p.unit}</td>
                 </tr>
               ))}
             </tbody>

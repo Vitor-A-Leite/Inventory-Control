@@ -45,14 +45,6 @@
   margin: 0;
 }
 
-.scannerBox {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 0 0 4px #3b82f6;
-}
-
 /* Feedback de loading */
 .feedback {
   display: flex;
@@ -102,6 +94,23 @@
   color: #94a3b8;
   font-size: 0.88rem;
   margin: 0;
+}
+
+.btnCancel {
+  padding: 0.6rem 2rem;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btnCancel:hover {
+  background: #1e293b;
+  color: #f1f5f9;
 }
 
 .btnRetry {

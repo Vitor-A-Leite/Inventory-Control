@@ -41,10 +41,11 @@ export default function Scanner() {
       <main className={styles.main}>
         {status === 'scanning' && (
           <>
-            <p className={styles.hint}>Aponte a câmera para o QR code do lote.</p>
-            <div className={styles.scannerBox}>
-              <QrScanner onScan={handleScan} onError={handleCameraError} />
-            </div>
+            <p className={styles.hint}>Aponte o QR code para a câmera aqui:</p>
+            <QrScanner onScan={handleScan} onError={handleCameraError} />
+            <button className={styles.btnCancel} onClick={() => navigate('/lotes')}>
+              Cancelar
+            </button>
           </>
         )}
 

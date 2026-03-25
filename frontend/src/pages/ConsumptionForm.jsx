@@ -10,6 +10,7 @@ export default function ConsumptionForm() {
 
   const [batches, setBatches] = useState([])
   const [selectedBatch, setSelectedBatch] = useState(preselectedBatch ?? '')
+  const [search, setSearch] = useState('')
   const [quantity, setQuantity] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -33,6 +34,12 @@ export default function ConsumptionForm() {
   }, [])
 
   const activeBatch = batches.find((b) => b.id === selectedBatch)
+
+  const filteredBatches = search.trim()
+    ? batches.filter((b) =>
+        b.product_details?.name?.toLowerCase().includes(search.trim().toLowerCase())
+      )
+    : batches
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -91,20 +98,33 @@ export default function ConsumptionForm() {
             {loadingBatches ? (
               <span className={styles.loading}>Carregando lotes...</span>
             ) : (
-              <select
-                className={styles.input}
-                value={selectedBatch}
-                onChange={(e) => setSelectedBatch(e.target.value)}
-                required
-              >
-                <option value="">Selecione um lote...</option>
-                {batches.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.product_details?.name} — Qtd: {b.quantity} — Val:{' '}
-                    {new Date(b.expiration_date + 'T00:00:00').toLocaleDateString('pt-BR')}
-                  </option>
-                ))}
-              </select>
+              <>
+                <input
+                  className={styles.input}
+                  type="search"
+                  placeholder="Pesquisar por produto..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <select
+                  className={styles.input}
+                  value={selectedBatch}
+                  onChange={(e) => setSelectedBatch(e.target.value)}
+                  required
+                  size={filteredBatches.length > 0 ? Math.min(filteredBatches.length + 1, 6) : 2}
+                >
+                  <option value="">Selecione um lote...</option>
+                  {filteredBatches.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.product_details?.name} — Qtd: {b.quantity} — Val:{' '}
+                      {new Date(b.expiration_date + 'T00:00:00').toLocaleDateString('pt-BR')}
+                    </option>
+                  ))}
+                </select>
+                {search.trim() && filteredBatches.length === 0 && (
+                  <span className={styles.noResults}>Nenhum lote encontrado.</span>
+                )}
+              </>
             )}
           </label>
 

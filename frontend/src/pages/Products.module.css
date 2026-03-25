@@ -82,6 +82,22 @@
   margin: 0 auto;
 }
 
+.search {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+
+.search:focus {
+  border-color: #3b82f6;
+}
+
 .info {
   color: #64748b;
   text-align: center;
