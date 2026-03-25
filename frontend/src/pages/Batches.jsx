@@ -20,20 +20,29 @@ export default function Batches() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [batches, setBatches] = useState([])
+  const [categories, setCategories] = useState([])
   const [search, setSearch] = useState('')
+  const [category, setCategory] = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [qrBatch, setQrBatch] = useState(null)
 
-  const filtered = batches.filter((b) =>
-    (b.product_details?.name ?? '').toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = batches.filter((b) => {
+    const matchName   = (b.product_details?.name ?? '').toLowerCase().includes(search.toLowerCase())
+    const matchCat    = category ? String(b.product_details?.category) === String(category) : true
+    const statusType  = expirationStatus(b.expiration_date).type
+    const matchStatus = statusFilter ? statusType === statusFilter : true
+    return matchName && matchCat && matchStatus
+  })
 
   useEffect(() => {
     api.get('/inventory/batches/')
       .then(({ data }) => setBatches(data.results ?? data))
       .catch(() => setError('Erro ao carregar lotes.'))
       .finally(() => setLoading(false))
+    api.get('/products/categories/')
+      .then(({ data }) => setCategories(data.results ?? data))
   }, [])
 
   return (
@@ -54,6 +63,12 @@ export default function Batches() {
           </button>
           <button
             className={styles.btnPrimary}
+            onClick={() => navigate('/lotes/novo')}
+          >
+            + Novo lote
+          </button>
+          <button
+            className={styles.btnPrimary}
             onClick={() => navigate('/consumos/novo')}
           >
             + Registrar consumo
@@ -63,13 +78,35 @@ export default function Batches() {
       </header>
 
       <main className={styles.main}>
-        <input
-          className={styles.search}
-          type="search"
-          placeholder="Buscar por produto..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className={styles.filterBar}>
+          <input
+            className={styles.filterInput}
+            type="search"
+            placeholder="Buscar por produto..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            className={styles.filterInput}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">Todas as categorias</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <select
+            className={styles.filterInput}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="">Todos os status</option>
+            <option value="ok">✓ Válido</option>
+            <option value="warning">⚠ Próximo do vencimento</option>
+            <option value="expired">✕ Vencido</option>
+          </select>
+        </div>
 
         {loading && <p className={styles.info}>Carregando...</p>}
         {error && <p className={styles.error}>{error}</p>}

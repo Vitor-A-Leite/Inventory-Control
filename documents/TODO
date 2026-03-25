@@ -84,13 +84,12 @@
 
 ## Semana 10 — Alertas de Vencimento
 ✔ [ ] View de histórico de consumos com filtros pra data, categoria de produto, produto @done(26-03-25 13:48)
-- [ ] Lógica de vencimento no backend
-- [ ] Endpoint de alertas
-- [ ] Tela de alertas no frontend
-- [ ] Destaque visual (cores/avisos)
+✔ [ ] Lógica de vencimento no backend @done(26-03-25 17:42)
+✔ [ ] Endpoint de alertas @done(26-03-25 17:42)
+✔ [ ] Tela de alertas no frontend @done(26-03-25 17:42)
+✔ [ ] Destaque visual (cores/avisos) @done(26-03-25 17:42)
 
-## Semana 11 — Docker e Deploy
-☐ [ ] Dockerfile frontend
+## Semana 11 — Docker e Deplo☐ [ ] Dockerfile frontend
 ☐ [ ] Dockerfile backend
 ☐ [ ] docker-compose.yml
 - [ ] Subir sistema completo

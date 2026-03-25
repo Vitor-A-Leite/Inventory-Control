@@ -7,19 +7,25 @@ import styles from './Products.module.css'
 export default function Products() {
   const { user, logout } = useAuth()
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
   const [search, setSearch] = useState('')
+  const [category, setCategory] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const filtered = products.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = products.filter((p) => {
+    const matchName = p.name.toLowerCase().includes(search.toLowerCase())
+    const matchCat  = category ? String(p.category) === String(category) : true
+    return matchName && matchCat
+  })
 
   useEffect(() => {
     api.get('/products/')
       .then(({ data }) => setProducts(data.results ?? data))
       .catch(() => setError('Erro ao carregar produtos.'))
       .finally(() => setLoading(false))
+    api.get('/products/categories/')
+      .then(({ data }) => setCategories(data.results ?? data))
   }, [])
 
   return (
@@ -37,6 +43,9 @@ export default function Products() {
           <Link className={styles.btnSecondary} to="/historico">
             Histórico
           </Link>
+          <Link className={styles.btnSecondary} to="/alertas">
+            Alertas
+          </Link>
           {user?.role === 'ADMIN' && (
             <Link className={styles.btnSecondary} to="/usuarios">
               Usuários
@@ -52,13 +61,25 @@ export default function Products() {
       </header>
 
       <main className={styles.main}>
-        <input
-          className={styles.search}
-          type="search"
-          placeholder="Buscar produto..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className={styles.filterBar}>
+          <input
+            className={styles.filterInput}
+            type="search"
+            placeholder="Buscar por nome..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            className={styles.filterInput}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">Todas as categorias</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        </div>
 
         {loading && <p className={styles.info}>Carregando...</p>}
         {error && <p className={styles.error}>{error}</p>}

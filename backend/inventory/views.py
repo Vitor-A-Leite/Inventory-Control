@@ -1,3 +1,5 @@
+import uuid
+
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -23,7 +25,10 @@ class BatchViewSet(ModelViewSet):
         return super().get_serializer_class()
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        serializer.save(
+            created_by=self.request.user,
+            qr_code=str(uuid.uuid4()),
+        )
 
     @action(detail=True, methods=["get"], url_path="qr-entry")
     def qr_entry(self, request, pk=None):

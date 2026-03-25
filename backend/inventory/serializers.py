@@ -26,7 +26,7 @@ class BatchSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-        read_only_fields = ["id", "created_by", "created_at", "updated_at"]
+        read_only_fields = ["id", "qr_code", "created_by", "created_at", "updated_at"]
 
     def validate_quantity(self, value):
         if value <= 0:

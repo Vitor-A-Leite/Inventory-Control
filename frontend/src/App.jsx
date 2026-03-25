@@ -10,6 +10,8 @@ import Scanner from './pages/Scanner'
 import ConsumptionConfirm from './pages/ConsumptionConfirm'
 import Users from './pages/Users'
 import ConsumptionHistory from './pages/ConsumptionHistory'
+import Alerts from './pages/Alerts'
+import BatchForm from './pages/BatchForm'
 
 export default function App() {
   return (
@@ -70,6 +72,22 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Users />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/lotes/novo"
+            element={
+              <PrivateRoute>
+                <BatchForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/alertas"
+            element={
+              <PrivateRoute>
+                <Alerts />
               </PrivateRoute>
             }
           />
