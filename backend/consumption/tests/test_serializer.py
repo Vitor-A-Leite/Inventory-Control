@@ -16,13 +16,13 @@ class ConsumptionSerializerTests(TestCase):
         self.batch = Batch.objects.create(
             product=self.product, quantity=10, expiration_date="2030-01-01", qr_code="QR123"
         )
-        self.user = User.objects.create(username="teste")
+        self.user = User.objects.create(username="teste", consumer_id=42)
 
     def test_invalid_quantity_used_zero(self):
         s = ConsumptionSerializer(data={
             "batch": self.batch.id,
             "quantity_used": 0,
-            "used_by": self.user.id,
+            "consumer_id": self.user.consumer_id,
         })
         assert not s.is_valid()
         assert "quantity_used" in s.errors
@@ -31,7 +31,7 @@ class ConsumptionSerializerTests(TestCase):
         s = ConsumptionSerializer(data={
             "batch": self.batch.id,
             "quantity_used": 11,
-            "used_by": self.user.id,
+            "consumer_id": self.user.consumer_id,
         })
         assert not s.is_valid()
         assert "quantity_used" in s.errors
@@ -40,7 +40,7 @@ class ConsumptionSerializerTests(TestCase):
         s = ConsumptionSerializer(data={
             "batch": self.batch.id,
             "quantity_used": 5,
-            "used_by": self.user.id,
+            "consumer_id": self.user.consumer_id,
         })
         assert s.is_valid(), s.errors
 
@@ -48,9 +48,10 @@ class ConsumptionSerializerTests(TestCase):
         s = ConsumptionSerializer(data={
             "batch": self.batch.id,
             "quantity_used": 4,
+            "consumer_id": self.user.consumer_id,
         })
         assert s.is_valid(), s.errors
-        consumption = s.save(used_by=self.user)
+        consumption = s.save()
 
         self.batch.refresh_from_db()
         self.assertEqual(consumption.quantity_used, 4)
@@ -66,6 +67,7 @@ class ConsumptionSerializerTests(TestCase):
         s = ConsumptionSerializer(data={
             "batch": expired_batch.id,
             "quantity_used": 1,
+            "consumer_id": self.user.consumer_id,
         })
         assert not s.is_valid()
         assert "batch" in s.errors

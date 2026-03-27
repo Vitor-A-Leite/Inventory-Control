@@ -121,3 +121,13 @@
   padding: 0.5rem 0.75rem;
   margin: 0;
 }
+
+.success {
+  color: #16a34a;
+  font-size: 0.85rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+}

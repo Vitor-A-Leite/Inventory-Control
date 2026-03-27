@@ -1,18 +1,35 @@
+from django.db import transaction
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from users.permissions import IsAdminOrManager
 from .models import Consumption
 from .serializers import ConsumptionSerializer, ConsumptionHistorySerializer
 
 
 class ConsumptionViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    http_method_names = ["get", "post", "head", "options"]
+    http_method_names = ["get", "post", "delete", "head", "options"]
+
+    def get_permissions(self):
+        if self.action == "destroy":
+            return [IsAdminOrManager()]
+        return [IsAuthenticated()]
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
             return ConsumptionHistorySerializer
         return ConsumptionSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        consumption = self.get_object()
+        with transaction.atomic():
+            batch = consumption.batch
+            batch.quantity += consumption.quantity_used
+            batch.save(update_fields=["quantity", "updated_at"])
+            consumption.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def get_queryset(self):
         qs = (

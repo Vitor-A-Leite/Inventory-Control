@@ -11,7 +11,10 @@ export default function BatchForm() {
 
   const selectedProduct = products.find((p) => String(p.id) === String(form.product))
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [saving, setSaving] = useState(false)
+
+  const today = new Date().toISOString().split('T')[0]
 
   useEffect(() => {
     api.get('/products/')
@@ -34,7 +37,8 @@ export default function BatchForm() {
         quantity: parseFloat(form.quantity),
         expiration_date: form.expiration_date,
       })
-      navigate('/lotes')
+      setSuccess('Lote cadastrado com sucesso!')
+      setTimeout(() => navigate('/lotes'), 1500)
     } catch (err) {
       const data = err.response?.data
       const msg = data
@@ -56,6 +60,7 @@ export default function BatchForm() {
       <main className={styles.main}>
         <form className={styles.card} onSubmit={handleSubmit}>
           {error && <pre className={styles.error}>{error}</pre>}
+          {success && <p className={styles.success}>{success}</p>}
 
           <label className={styles.label}>
             Produto
@@ -102,6 +107,7 @@ export default function BatchForm() {
               name="expiration_date"
               value={form.expiration_date}
               onChange={handleChange}
+              min={today}
               required
             />
           </label>

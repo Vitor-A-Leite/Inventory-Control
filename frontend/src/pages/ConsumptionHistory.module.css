@@ -210,3 +210,39 @@
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
 }
+
+.btnDelete {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btnDelete:hover {
+  background: #fef2f2;
+}
+
+.tableControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.rowsSelect {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: #fff;
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from consumption.models import Consumption
 from inventory.models import Batch
@@ -21,20 +22,22 @@ class ConsumptionViewSetTests(APITestCase):
         self.user = User.objects.create_user(
             username="tester", password="123456", consumer_id=101
         )
+        token = RefreshToken.for_user(self.user)
+        self.auth_header = f"Bearer {token.access_token}"
 
     def test_post_requires_authentication(self):
         response = self.client.post(
             reverse("consumption-list"),
-            {"batch": str(self.batch.id), "quantity_used": 2},
+            {"batch": str(self.batch.id), "quantity_used": 2, "consumer_id": 101},
             format="json",
         )
         self.assertIn(response.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
 
     def test_authenticated_post_creates_consumption_and_updates_stock(self):
-        self.client.credentials(HTTP_X_USER_ID=str(self.user.consumer_id))
+        self.client.credentials(HTTP_AUTHORIZATION=self.auth_header)
         response = self.client.post(
             reverse("consumption-list"),
-            {"batch": str(self.batch.id), "quantity_used": 2},
+            {"batch": str(self.batch.id), "quantity_used": 2, "consumer_id": 101},
             format="json",
         )
 
@@ -45,7 +48,7 @@ class ConsumptionViewSetTests(APITestCase):
         self.assertEqual(Consumption.objects.first().used_by, self.user)
 
     def test_patch_is_not_allowed(self):
-        self.client.credentials(HTTP_X_USER_ID=str(self.user.consumer_id))
+        self.client.credentials(HTTP_AUTHORIZATION=self.auth_header)
         consumption = Consumption.objects.create(
             batch=self.batch, quantity_used=1, used_by=self.user
         )
@@ -58,7 +61,7 @@ class ConsumptionViewSetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_delete_is_not_allowed(self):
-        self.client.credentials(HTTP_X_USER_ID=str(self.user.consumer_id))
+        self.client.credentials(HTTP_AUTHORIZATION=self.auth_header)
         consumption = Consumption.objects.create(
             batch=self.batch, quantity_used=1, used_by=self.user
         )
@@ -66,15 +69,11 @@ class ConsumptionViewSetTests(APITestCase):
         response = self.client.delete(reverse("consumption-detail", args=[consumption.id]))
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_invalid_user_id_header_returns_401(self):
-        self.client.credentials(HTTP_X_USER_ID="999999")
+    def test_invalid_consumer_id_in_payload_returns_400(self):
+        self.client.credentials(HTTP_AUTHORIZATION=self.auth_header)
         response = self.client.post(
             reverse("consumption-list"),
-            {"batch": str(self.batch.id), "quantity_used": 2},
+            {"batch": str(self.batch.id), "quantity_used": 2, "consumer_id": 999},
             format="json",
         )
-
-        self.assertIn(
-            response.status_code,
-            [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN],
-        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

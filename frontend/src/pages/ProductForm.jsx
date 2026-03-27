@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import api from '../api/axios'
 import styles from './ProductForm.module.css'
 
@@ -7,21 +7,40 @@ const EMPTY = { name: '', category: '', unit: '', minimum_stock: '' }
 
 export default function ProductForm() {
   const navigate = useNavigate()
+  const { id } = useParams()
+  const isEdit = Boolean(id)
+
   const [form, setForm] = useState(EMPTY)
   const [categories, setCategories] = useState([])
   const [units, setUnits] = useState([])
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
+  const [loadingForm, setLoadingForm] = useState(isEdit)
 
   useEffect(() => {
-    Promise.all([
+    const requests = [
       api.get('/products/categories/'),
       api.get('/products/units/'),
-    ]).then(([catRes, unitRes]) => {
-      setCategories(catRes.data.results ?? catRes.data)
-      setUnits(unitRes.data.results ?? unitRes.data)
-    }).catch(() => setError('Erro ao carregar categorias ou unidades.'))
-  }, [])
+      ...(isEdit ? [api.get(`/products/${id}/`)] : []),
+    ]
+    Promise.all(requests)
+      .then(([catRes, unitRes, productRes]) => {
+        setCategories(catRes.data.results ?? catRes.data)
+        setUnits(unitRes.data.results ?? unitRes.data)
+        if (productRes) {
+          const p = productRes.data
+          setForm({
+            name: p.name,
+            category: String(p.category),
+            unit: String(p.unit),
+            minimum_stock: String(p.minimum_stock),
+          })
+        }
+      })
+      .catch(() => setError('Erro ao carregar dados.'))
+      .finally(() => setLoadingForm(false))
+  }, [id, isEdit])
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -32,34 +51,43 @@ export default function ProductForm() {
     setError('')
     setLoading(true)
     try {
-      await api.post('/products/', {
+      const payload = {
         name: form.name,
         category: Number(form.category),
         unit: Number(form.unit),
         minimum_stock: Number(form.minimum_stock),
-      })
-      navigate('/produtos')
+      }
+      if (isEdit) {
+        await api.patch(`/products/${id}/`, payload)
+      } else {
+        await api.post('/products/', payload)
+      }
+      setSuccess(isEdit ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!')
+      setTimeout(() => navigate('/produtos'), 1500)
     } catch (err) {
       const data = err.response?.data
       const msg = data
         ? Object.values(data).flat().join(' ')
-        : 'Erro ao cadastrar produto.'
+        : isEdit ? 'Erro ao atualizar produto.' : 'Erro ao cadastrar produto.'
       setError(msg)
     } finally {
       setLoading(false)
     }
   }
 
+  if (loadingForm) return <div className={styles.page}><p style={{ padding: '2rem' }}>Carregando...</p></div>
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <Link className={styles.back} to="/produtos">← Voltar</Link>
-        <h1 className={styles.title}>Novo Produto</h1>
+        <h1 className={styles.title}>{isEdit ? 'Editar Produto' : 'Novo Produto'}</h1>
       </header>
 
       <main className={styles.main}>
         <form className={styles.card} onSubmit={handleSubmit}>
           {error && <p className={styles.error}>{error}</p>}
+          {success && <p className={styles.success}>{success}</p>}
 
           <label className={styles.label}>
             Nome
@@ -122,7 +150,7 @@ export default function ProductForm() {
           <div className={styles.footer}>
             <Link className={styles.btnCancel} to="/produtos">Cancelar</Link>
             <button className={styles.btnSave} type="submit" disabled={loading}>
-              {loading ? 'Salvando...' : 'Salvar produto'}
+              {loading ? 'Salvando...' : isEdit ? 'Salvar alterações' : 'Salvar produto'}
             </button>
           </div>
         </form>

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
+import RoleRoute from './components/RoleRoute'
 import Login from './pages/Login'
 import Products from './pages/Products'
 import ProductForm from './pages/ProductForm'
@@ -12,6 +13,8 @@ import Users from './pages/Users'
 import ConsumptionHistory from './pages/ConsumptionHistory'
 import Alerts from './pages/Alerts'
 import BatchForm from './pages/BatchForm'
+import AuditLog from './pages/AuditLog'
+import Catalog from './pages/Catalog'
 
 export default function App() {
   return (
@@ -70,8 +73,32 @@ export default function App() {
           <Route
             path="/usuarios"
             element={
-              <PrivateRoute>
+              <RoleRoute role="ADMIN">
                 <Users />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/catalogo"
+            element={
+              <RoleRoute roles={['ADMIN', 'MANAGER']}>
+                <Catalog />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/auditoria"
+            element={
+              <RoleRoute role="ADMIN">
+                <AuditLog />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/produtos/:id/editar"
+            element={
+              <PrivateRoute>
+                <ProductForm />
               </PrivateRoute>
             }
           />

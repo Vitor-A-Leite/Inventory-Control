@@ -8,6 +8,7 @@ const emptyFilters = { date_from: '', date_to: '', product: '', category: '' }
 
 export default function ConsumptionHistory() {
   const { user, logout } = useAuth()
+  const canDelete = user?.role === 'ADMIN' || user?.role === 'MANAGER'
 
   const [categories, setCategories] = useState([])
   const [records, setRecords] = useState([])
@@ -15,6 +16,17 @@ export default function ConsumptionHistory() {
   const [error, setError] = useState('')
   const [filters, setFilters] = useState(emptyFilters)
   const [searched, setSearched] = useState(false)
+  const [rowsPerPage, setRowsPerPage] = useState(25)
+
+  async function handleDelete(id) {
+    if (!window.confirm('Excluir este consumo? O estoque do lote será restaurado.')) return
+    try {
+      await api.delete(`/consumption/consumptions/${id}/`)
+      setRecords((prev) => prev.filter((r) => r.id !== id))
+    } catch (err) {
+      setError(err.response?.data?.detail ?? 'Erro ao excluir consumo.')
+    }
+  }
 
   useEffect(() => {
     api.get('/products/categories/').then(({ data }) => setCategories(data.results ?? data))
@@ -134,6 +146,20 @@ export default function ConsumptionHistory() {
         )}
 
         {records.length > 0 && (
+          <div className={styles.tableControls}>
+            <span>{Math.min(rowsPerPage, records.length)} de {records.length} registro(s)</span>
+            <label>
+              Linhas por página:
+              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </label>
+          </div>
+        )}
+        {records.length > 0 && (
           <table className={styles.table}>
             <thead>
               <tr>
@@ -144,10 +170,11 @@ export default function ConsumptionHistory() {
                 <th>Unidade</th>
                 <th>Validade do lote</th>
                 <th>Funcionário</th>
+                {canDelete && <th></th>}
               </tr>
             </thead>
             <tbody>
-              {records.map((r) => (
+              {records.slice(0, rowsPerPage).map((r) => (
                 <tr key={r.id}>
                   <td>{new Date(r.created_at).toLocaleString('pt-BR')}</td>
                   <td>{r.product_name}</td>
@@ -156,6 +183,13 @@ export default function ConsumptionHistory() {
                   <td>{r.unit_abbr}</td>
                   <td>{new Date(r.batch_expiration + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
                   <td>{r.employee}</td>
+                  {canDelete && (
+                    <td>
+                      <button className={styles.btnDelete} onClick={() => handleDelete(r.id)}>
+                        Excluir
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

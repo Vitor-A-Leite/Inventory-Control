@@ -1,10 +1,12 @@
 import uuid
 
+from django.db.models import ProtectedError
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from users.permissions import IsAdminOrManager
 from .models import Batch
 from .serializers import BatchQrEntrySerializer, BatchSerializer
 
@@ -12,12 +14,21 @@ from .serializers import BatchQrEntrySerializer, BatchSerializer
 class BatchViewSet(ModelViewSet):
     queryset = Batch.objects.select_related("product", "created_by").all().order_by("-created_at")
     serializer_class = BatchSerializer
-    http_method_names = ["get", "post", "head", "options"]
+    http_method_names = ["get", "post", "delete", "head", "options"]
 
     def get_permissions(self):
-        if self.action in {"create", "qr_entry", "by_qr"}:
-            return [IsAuthenticated()]
-        return []
+        if self.action == "destroy":
+            return [IsAdminOrManager()]
+        return [IsAuthenticated()]
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            return super().destroy(request, *args, **kwargs)
+        except ProtectedError:
+            return Response(
+                {"detail": "Este lote possui consumos registrados e não pode ser excluído."},
+                status=status.HTTP_409_CONFLICT,
+            )
 
     def get_serializer_class(self):
         if self.action in {"qr_entry", "by_qr"}:

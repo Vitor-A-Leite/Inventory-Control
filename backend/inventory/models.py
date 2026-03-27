@@ -6,8 +6,8 @@ from users.models import User
 
 class Batch(BaseModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.FloatField()
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.DecimalField(max_digits=10, decimal_places=3)
     expiration_date = models.DateField()
     # Pensar em fazer o QR code ser gerado automaticamente
     qr_code = models.CharField(max_length=255, unique=True)

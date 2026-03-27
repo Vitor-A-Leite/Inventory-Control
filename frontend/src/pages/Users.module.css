@@ -257,6 +257,24 @@
 
 .btnDelete:hover { background: #fef2f2; }
 
+.tableControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.rowsSelect {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: #fff;
+  cursor: pointer;
+}
+
 /* Misc */
 .info {
   color: #64748b;

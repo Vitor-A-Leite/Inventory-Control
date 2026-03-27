@@ -11,10 +11,25 @@ export default function ConsumptionForm() {
   const [batches, setBatches] = useState([])
   const [selectedBatch, setSelectedBatch] = useState(preselectedBatch ?? '')
   const [search, setSearch] = useState('')
+  const [consumerId, setConsumerId] = useState('')
+  const [employee, setEmployee] = useState(null)
+  const [employeeError, setEmployeeError] = useState('')
   const [quantity, setQuantity] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [loadingBatches, setLoadingBatches] = useState(true)
+
+  async function validateConsumerId(value) {
+    setEmployee(null)
+    setEmployeeError('')
+    if (!value || isNaN(value)) return
+    try {
+      const { data } = await api.post('/users/validate-consumer-id/', { consumer_id: Number(value) })
+      setEmployee(data)
+    } catch {
+      setEmployeeError('ID não encontrado.')
+    }
+  }
 
   useEffect(() => {
     api.get('/inventory/batches/')
@@ -46,6 +61,10 @@ export default function ConsumptionForm() {
     setError('')
 
     const qty = parseFloat(quantity)
+    if (!consumerId || !employee) {
+      setError('Informe um ID de funcionário válido.')
+      return
+    }
     if (!selectedBatch) {
       setError('Selecione um lote.')
       return
@@ -64,6 +83,7 @@ export default function ConsumptionForm() {
       await api.post('/consumption/consumptions/', {
         batch: selectedBatch,
         quantity_used: qty,
+        consumer_id: Number(consumerId),
       })
       navigate('/lotes')
     } catch (err) {
@@ -139,6 +159,27 @@ export default function ConsumptionForm() {
               </span>
             </div>
           )}
+
+          <label className={styles.label}>
+            ID do funcionário
+            <input
+              className={styles.input}
+              type="number"
+              value={consumerId}
+              onChange={(e) => { setConsumerId(e.target.value); setEmployee(null); setEmployeeError('') }}
+              onBlur={(e) => validateConsumerId(e.target.value)}
+              min="1"
+              max="999"
+              placeholder="Ex: 42"
+              required
+            />
+            {employee && (
+              <span className={styles.employeeFound}>
+                ✓ {[employee.first_name, employee.last_name].filter(Boolean).join(' ') || employee.username}
+              </span>
+            )}
+            {employeeError && <span className={styles.employeeError}>{employeeError}</span>}
+          </label>
 
           <label className={styles.label}>
             Quantidade consumida

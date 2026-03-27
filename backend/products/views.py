@@ -1,10 +1,13 @@
+from django.db.models import ProtectedError
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.permissions import IsAdminOrManager
 
 from .models import Category, Product, Unit
-from .serizalizers import CategorySerializer, ProductSerializer, UnitSerializer
+from .serializers import CategorySerializer, ProductSerializer, UnitSerializer
 
 SAFE_METHODS = ("GET", "HEAD", "OPTIONS")
 
@@ -37,3 +40,12 @@ class ProductViewSet(ModelViewSet):
         if self.request.method in SAFE_METHODS:
             return [IsAuthenticated()]
         return [IsAdminOrManager()]
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            return super().destroy(request, *args, **kwargs)
+        except ProtectedError:
+            return Response(
+                {"detail": "Este produto possui lotes vinculados e não pode ser excluído."},
+                status=status.HTTP_409_CONFLICT,
+            )

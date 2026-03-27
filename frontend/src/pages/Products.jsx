@@ -12,6 +12,17 @@ export default function Products() {
   const [category, setCategory] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(25)
+
+  async function handleDelete(id) {
+    if (!window.confirm('Deseja realmente excluir este produto?')) return
+    try {
+      await api.delete(`/products/${id}/`)
+      setProducts((prev) => prev.filter((p) => p.id !== id))
+    } catch (err) {
+      setError(err.response?.data?.detail ?? 'Erro ao excluir produto.')
+    }
+  }
 
   const filtered = products.filter((p) => {
     const matchName = p.name.toLowerCase().includes(search.toLowerCase())
@@ -46,9 +57,19 @@ export default function Products() {
           <Link className={styles.btnSecondary} to="/alertas">
             Alertas
           </Link>
+          {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+            <Link className={styles.btnSecondary} to="/catalogo">
+              Catálogo
+            </Link>
+          )}
           {user?.role === 'ADMIN' && (
             <Link className={styles.btnSecondary} to="/usuarios">
               Usuários
+            </Link>
+          )}
+          {user?.role === 'ADMIN' && (
+            <Link className={styles.btnSecondary} to="/auditoria">
+              Auditoria
             </Link>
           )}
           <Link className={styles.btnPrimary} to="/produtos/novo">
@@ -91,6 +112,20 @@ export default function Products() {
         )}
 
         {filtered.length > 0 && (
+          <div className={styles.tableControls}>
+            <span>{Math.min(rowsPerPage, filtered.length)} de {filtered.length} produto(s)</span>
+            <label>
+              Linhas por página:
+              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </label>
+          </div>
+        )}
+        {filtered.length > 0 && (
           <table className={styles.table}>
             <thead>
               <tr>
@@ -98,15 +133,22 @@ export default function Products() {
                 <th>Categoria</th>
                 <th>Unidade</th>
                 <th>Estoque mínimo</th>
+                {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && <th>Ações</th>}
               </tr>
             </thead>
             <tbody>
-              {filtered.map((p) => (
+              {filtered.slice(0, rowsPerPage).map((p) => (
                 <tr key={p.id}>
                   <td>{p.name}</td>
                   <td>{p.category_name ?? p.category}</td>
-                  <td>{p.minimum_stock}</td>
                   <td>{p.unit_abbreviation ?? p.unit}</td>
+                  <td>{p.minimum_stock}</td>
+                  {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+                    <td>
+                      <Link className={styles.btnEdit} to={`/produtos/${p.id}/editar`}>Editar</Link>
+                      <button className={styles.btnDelete} onClick={() => handleDelete(p.id)}>Excluir</button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -27,6 +27,17 @@ export default function Batches() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [qrBatch, setQrBatch] = useState(null)
+  const [rowsPerPage, setRowsPerPage] = useState(25)
+
+  async function handleDelete(id) {
+    if (!window.confirm('Excluir este lote? Esta ação não pode ser desfeita.')) return
+    try {
+      await api.delete(`/inventory/batches/${id}/`)
+      setBatches((prev) => prev.filter((b) => b.id !== id))
+    } catch (err) {
+      setError(err.response?.data?.detail ?? 'Erro ao excluir lote.')
+    }
+  }
 
   const filtered = batches.filter((b) => {
     const matchName   = (b.product_details?.name ?? '').toLowerCase().includes(search.toLowerCase())
@@ -118,6 +129,20 @@ export default function Batches() {
         )}
 
         {filtered.length > 0 && (
+          <div className={styles.tableControls}>
+            <span>{Math.min(rowsPerPage, filtered.length)} de {filtered.length} lote(s)</span>
+            <label>
+              Linhas por página:
+              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </label>
+          </div>
+        )}
+        {filtered.length > 0 && (
           <table className={styles.table}>
             <thead>
               <tr>
@@ -129,10 +154,11 @@ export default function Batches() {
                 <th>Atualizado em</th>
                 <th>QR</th>
                 <th></th>
+                {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && <th></th>}
               </tr>
             </thead>
             <tbody>
-              {filtered.map((b) => {
+              {filtered.slice(0, rowsPerPage).map((b) => {
                 const status = expirationStatus(b.expiration_date)
                 return (
                   <tr key={b.id}>
@@ -171,6 +197,17 @@ export default function Batches() {
                         Registrar consumo
                       </button>
                     </td>
+                    {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+                      <td>
+                        <button
+                          className={styles.btnDelete}
+                          onClick={() => handleDelete(b.id)}
+                          title="Excluir lote"
+                        >
+                          Excluir
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 )
               })}

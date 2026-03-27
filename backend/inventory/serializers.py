@@ -33,6 +33,11 @@ class BatchSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("A quantidade deve ser maior que zero.")
         return value
 
+    def validate_expiration_date(self, value):
+        if value < timezone.localdate():
+            raise serializers.ValidationError("A data de validade não pode ser no passado.")
+        return value
+
 
 class BatchQrEntrySerializer(serializers.ModelSerializer):
     product_details = ProductBasicSerializer(source="product", read_only=True)

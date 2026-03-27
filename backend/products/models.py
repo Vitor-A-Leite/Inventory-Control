@@ -20,7 +20,7 @@ class Product(BaseModel):
     name = models.CharField(max_length=150)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     unit = models.ForeignKey(Unit, on_delete=models.PROTECT)
-    minimum_stock = models.FloatField(default=0)
+    minimum_stock = models.DecimalField(max_digits=10, decimal_places=3, default=0)
 
     def __str__(self):
         return self.name

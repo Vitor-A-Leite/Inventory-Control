@@ -79,6 +79,18 @@
   border-color: #3b82f6;
 }
 
+.employeeFound {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.employeeError {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #dc2626;
+}
+
 .noResults {
   color: #94a3b8;
   font-size: 0.85rem;

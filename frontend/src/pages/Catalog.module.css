@@ -1,0 +1,325 @@
+.page {
+  min-height: 100vh;
+  background: #f1f5f9;
+}
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.username {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.btnSecondary {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btnSecondary:hover {
+  background: #f9fafb;
+}
+
+.btnLogout {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnLogout:hover {
+  background: #fef2f2;
+}
+
+.main {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.empty {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Inline edit form */
+.inlineForm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.inlineInput {
+  flex: 1;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  min-width: 100px;
+}
+
+.inlineInputShort {
+  width: 80px;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+/* Add form at bottom */
+.addForm {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.addInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  min-width: 120px;
+}
+
+.addInput:focus {
+  border-color: #3b82f6;
+}
+
+.addInputShort {
+  width: 90px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.addInputShort:focus {
+  border-color: #3b82f6;
+}
+
+/* Buttons */
+.rowActions {
+  display: flex;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.btnEdit {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  color: #3b82f6;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnEdit:hover {
+  background: #eff6ff;
+}
+
+.btnDelete {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnDelete:hover {
+  background: #fef2f2;
+}
+
+.btnSave {
+  padding: 0.3rem 0.8rem;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnSave:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.btnSave:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnCancel {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnCancel:hover {
+  background: #f9fafb;
+}
+
+.btnAdd {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btnAdd:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.btnAdd:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Misc */
+.abbr {
+  display: inline-block;
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.info {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.85rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+}

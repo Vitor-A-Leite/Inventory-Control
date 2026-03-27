@@ -149,3 +149,54 @@
 .table tr:last-child td {
   border-bottom: none;
 }
+
+.tableControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.rowsSelect {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.btnEdit {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  color: #3b82f6;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  margin-right: 0.4rem;
+  transition: background 0.2s;
+}
+
+.btnEdit:hover {
+  background: #eff6ff;
+}
+
+.btnDelete {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnDelete:hover {
+  background: #fef2f2;
+}

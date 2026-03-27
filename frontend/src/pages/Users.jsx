@@ -20,6 +20,7 @@ export default function Users() {
   const [formError, setFormError] = useState('')
   const [editError, setEditError] = useState('')
   const [saving, setSaving] = useState(false)
+  const [rowsPerPage, setRowsPerPage] = useState(25)
 
   function fetchUsers() {
     setLoading(true)
@@ -250,6 +251,20 @@ export default function Users() {
         )}
 
         {users.length > 0 && (
+          <div className={styles.tableControls}>
+            <span>{Math.min(rowsPerPage, users.length)} de {users.length} usuário(s)</span>
+            <label>
+              Linhas por página:
+              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </label>
+          </div>
+        )}
+        {users.length > 0 && (
           <table className={styles.table}>
             <thead>
               <tr>
@@ -262,7 +277,7 @@ export default function Users() {
               </tr>
             </thead>
             <tbody>
-              {users.map((u) => (
+              {users.slice(0, rowsPerPage).map((u) => (
                 <tr key={u.id} className={!u.is_active ? styles.inactive : ''}>
                   <td>{u.username}</td>
                   <td>{[u.first_name, u.last_name].filter(Boolean).join(' ') || '—'}</td>
