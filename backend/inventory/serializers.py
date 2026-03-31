@@ -5,9 +5,11 @@ from products.models import Product
 
 
 class ProductBasicSerializer(serializers.ModelSerializer):
+    unit_abbreviation = serializers.CharField(source="unit.abbreviation", read_only=True)
+
     class Meta:
         model = Product
-        fields = ["id", "name", "minimum_stock", "category", "unit"]
+        fields = ["id", "name", "minimum_stock", "category", "unit", "unit_abbreviation"]
 
 
 class BatchSerializer(serializers.ModelSerializer):
