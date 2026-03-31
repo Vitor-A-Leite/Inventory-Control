@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
-import styles from './QrScanner.module.css'
+import styles from './BarcodeScanModal.module.css'
 
-const ALL_FORMATS = [
-  Html5QrcodeSupportedFormats.QR_CODE,
+const BARCODE_FORMATS = [
   Html5QrcodeSupportedFormats.EAN_13,
   Html5QrcodeSupportedFormats.EAN_8,
   Html5QrcodeSupportedFormats.CODE_128,
@@ -12,17 +11,15 @@ const ALL_FORMATS = [
   Html5QrcodeSupportedFormats.UPC_E,
 ]
 
-export default function QrScanner({ onScan, onError }) {
+export default function BarcodeScanModal({ onScan, onClose }) {
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
   const streamRef = useRef(null)
   const intervalRef = useRef(null)
-  const scannerRef = useRef(null)
   const firedRef = useRef(false)
 
   useEffect(() => {
-    const scanner = new Html5Qrcode('qr-hidden-decoder', { formatsToSupport: ALL_FORMATS })
-    scannerRef.current = scanner
+    const scanner = new Html5Qrcode('barcode-hidden-decoder', { formatsToSupport: BARCODE_FORMATS })
 
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: 'environment' }, audio: false })
@@ -57,9 +54,7 @@ export default function QrScanner({ onScan, onError }) {
           }, 'image/jpeg')
         }, 300)
       })
-      .catch((err) => {
-        onError?.(err?.message ?? 'Não foi possível acessar a câmera.')
-      })
+      .catch(onClose)
 
     return () => {
       clearInterval(intervalRef.current)
@@ -68,10 +63,17 @@ export default function QrScanner({ onScan, onError }) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={styles.wrapper}>
-      <video ref={videoRef} className={styles.video} muted playsInline />
-      <canvas ref={canvasRef} className={styles.canvas} />
-      <div id="qr-hidden-decoder" style={{ display: 'none' }} />
+    <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className={styles.modal}>
+        <p className={styles.hint}>Aponte a câmera para o código de barras</p>
+        <div className={styles.viewfinder}>
+          <video ref={videoRef} className={styles.video} muted playsInline />
+          <canvas ref={canvasRef} style={{ display: 'none' }} />
+          <div className={styles.scanLine} />
+        </div>
+        <div id="barcode-hidden-decoder" style={{ display: 'none' }} />
+        <button className={styles.btnCancel} onClick={onClose}>Cancelar</button>
+      </div>
     </div>
   )
 }

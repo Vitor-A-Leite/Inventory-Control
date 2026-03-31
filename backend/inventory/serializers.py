@@ -24,6 +24,7 @@ class BatchSerializer(serializers.ModelSerializer):
             "quantity",
             "expiration_date",
             "qr_code",
+            "barcode",
             "created_by",
             "created_at",
             "updated_at",
@@ -53,6 +54,8 @@ class BatchQrEntrySerializer(serializers.ModelSerializer):
             "product_details",
             "quantity",
             "expiration_date",
+            "qr_code",
+            "barcode",
             "is_expired",
             "can_consume",
         ]

@@ -11,6 +11,7 @@ class Batch(BaseModel):
     expiration_date = models.DateField()
     # Pensar em fazer o QR code ser gerado automaticamente
     qr_code = models.CharField(max_length=255, unique=True)
+    barcode = models.CharField(max_length=255, unique=True, null=True, blank=True)
     created_by = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,

@@ -1,6 +1,6 @@
 import uuid
 
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, Q
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -56,10 +56,12 @@ class BatchViewSet(ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            batch = Batch.objects.select_related("product").get(qr_code=code)
+            batch = Batch.objects.select_related("product").get(
+                Q(qr_code=code) | Q(barcode=code)
+            )
         except Batch.DoesNotExist:
             return Response(
-                {"detail": "Lote não encontrado para o QR code informado."},
+                {"detail": "Lote não encontrado."},
                 status=status.HTTP_404_NOT_FOUND,
             )
         serializer = self.get_serializer(batch)

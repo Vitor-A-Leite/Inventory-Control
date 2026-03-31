@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import api from '../api/axios'
+import BarcodeScanModal from '../components/BarcodeScanModal'
 import styles from './BatchForm.module.css'
 
 export default function BatchForm() {
   const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [loadingProducts, setLoadingProducts] = useState(true)
-  const [form, setForm] = useState({ product: '', quantity: '', expiration_date: '' })
+  const [form, setForm] = useState({ product: '', quantity: '', expiration_date: '', barcode: '' })
+  const [scanningBarcode, setScanningBarcode] = useState(false)
 
   const selectedProduct = products.find((p) => String(p.id) === String(form.product))
   const [error, setError] = useState('')
@@ -36,6 +38,7 @@ export default function BatchForm() {
         product: form.product,
         quantity: parseFloat(form.quantity),
         expiration_date: form.expiration_date,
+        ...(form.barcode.trim() ? { barcode: form.barcode.trim() } : {}),
       })
       setSuccess('Lote cadastrado com sucesso!')
       setTimeout(() => navigate('/lotes'), 1500)
@@ -52,6 +55,15 @@ export default function BatchForm() {
 
   return (
     <div className={styles.page}>
+      {scanningBarcode && (
+        <BarcodeScanModal
+          onScan={(code) => {
+            setForm((prev) => ({ ...prev, barcode: code }))
+            setScanningBarcode(false)
+          }}
+          onClose={() => setScanningBarcode(false)}
+        />
+      )}
       <header className={styles.header}>
         <Link className={styles.back} to="/lotes">← Lotes</Link>
         <h1 className={styles.title}>Novo Lote</h1>
@@ -110,6 +122,28 @@ export default function BatchForm() {
               min={today}
               required
             />
+          </label>
+
+          <label className={styles.label}>
+            Código de barras <span className={styles.optional}>(opcional)</span>
+            <div className={styles.barcodeRow}>
+              <input
+                className={styles.input}
+                type="text"
+                name="barcode"
+                value={form.barcode}
+                onChange={handleChange}
+                placeholder="Ex: 7891234567890"
+              />
+              <button
+                type="button"
+                className={styles.btnScan}
+                onClick={() => setScanningBarcode(true)}
+                title="Escanear código de barras"
+              >
+                Escanear
+              </button>
+            </div>
           </label>
 
           <div className={styles.footer}>
