@@ -5,7 +5,7 @@ import api from '../api/axios'
 import styles from './Products.module.css'
 
 export default function Products() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [search, setSearch] = useState('')
@@ -41,91 +41,66 @@ export default function Products() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Produtos</h1>
-        <div className={styles.actions}>
-          <span className={styles.username}>Olá, {user?.username}</span>
-          <Link className={styles.btnSecondary} to="/scanner">
-            Escanear QR
-          </Link>
-          <Link className={styles.btnSecondary} to="/lotes">
-            Lotes
-          </Link>
-          <Link className={styles.btnSecondary} to="/historico">
-            Histórico
-          </Link>
-          <Link className={styles.btnSecondary} to="/alertas">
-            Alertas
-          </Link>
-          {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
-            <Link className={styles.btnSecondary} to="/catalogo">
-              Catálogo
-            </Link>
+      <div className={styles.toolbar}>
+        <div>
+          <h1 className={styles.pageTitle}>Produtos</h1>
+          {!loading && (
+            <p className={styles.pageDesc}>{products.length} produto(s) cadastrado(s)</p>
           )}
-          {user?.role === 'ADMIN' && (
-            <Link className={styles.btnSecondary} to="/usuarios">
-              Usuários
-            </Link>
-          )}
-          {user?.role === 'ADMIN' && (
-            <Link className={styles.btnSecondary} to="/auditoria">
-              Auditoria
-            </Link>
-          )}
+        </div>
+        {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
           <Link className={styles.btnPrimary} to="/produtos/novo">
             + Novo produto
           </Link>
-          <button className={styles.btnLogout} onClick={logout}>
-            Sair
-          </button>
-        </div>
-      </header>
-
-      <main className={styles.main}>
-        <div className={styles.filterBar}>
-          <input
-            className={styles.filterInput}
-            type="search"
-            placeholder="Buscar por nome..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <select
-            className={styles.filterInput}
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Todas as categorias</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-        </div>
-
-        {loading && <p className={styles.info}>Carregando...</p>}
-        {error && <p className={styles.error}>{error}</p>}
-
-        {!loading && !error && filtered.length === 0 && (
-          <p className={styles.info}>
-            {search ? 'Nenhum produto encontrado para essa busca.' : 'Nenhum produto cadastrado ainda.'}
-          </p>
         )}
+      </div>
 
-        {filtered.length > 0 && (
-          <div className={styles.tableControls}>
-            <span>{Math.min(rowsPerPage, filtered.length)} de {filtered.length} produto(s)</span>
-            <label>
-              Linhas por página:
-              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </label>
-          </div>
-        )}
-        {filtered.length > 0 && (
+      <div className={styles.filterBar}>
+        <input
+          className={styles.filterInput}
+          type="search"
+          placeholder="Buscar por nome..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select
+          className={styles.filterInput}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Todas as categorias</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option>
+          ))}
+        </select>
+      </div>
+
+      {loading && <p className={styles.info}>Carregando...</p>}
+      {error && <p className={styles.error}>{error}</p>}
+
+      {!loading && !error && filtered.length === 0 && (
+        <p className={styles.info}>
+          {search ? 'Nenhum produto encontrado para essa busca.' : 'Nenhum produto cadastrado ainda.'}
+        </p>
+      )}
+
+      {filtered.length > 0 && (
+        <div className={styles.tableControls}>
+          <span>{Math.min(rowsPerPage, filtered.length)} de {filtered.length} produto(s)</span>
+          <label>
+            Linhas por página:
+            <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </label>
+        </div>
+      )}
+
+      {filtered.length > 0 && (
+        <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -139,22 +114,24 @@ export default function Products() {
             <tbody>
               {filtered.slice(0, rowsPerPage).map((p) => (
                 <tr key={p.id}>
-                  <td>{p.name}</td>
+                  <td className={styles.nameCell}>{p.name}</td>
                   <td>{p.category_name ?? p.category}</td>
-                  <td>{p.unit_abbreviation ?? p.unit}</td>
+                  <td><span className={styles.badge}>{p.unit_abbreviation ?? p.unit}</span></td>
                   <td>{p.minimum_stock}</td>
                   {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
                     <td>
-                      <Link className={styles.btnEdit} to={`/produtos/${p.id}/editar`}>Editar</Link>
-                      <button className={styles.btnDelete} onClick={() => handleDelete(p.id)}>Excluir</button>
+                      <div className={styles.rowActions}>
+                        <Link className={styles.btnEdit} to={`/produtos/${p.id}/editar`}>Editar</Link>
+                        <button className={styles.btnDelete} onClick={() => handleDelete(p.id)}>Excluir</button>
+                      </div>
                     </td>
                   )}
                 </tr>
               ))}
             </tbody>
           </table>
-        )}
-      </main>
+        </div>
+      )}
     </div>
   )
 }

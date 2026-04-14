@@ -1,66 +1,52 @@
 .page {
-  min-height: 100vh;
-  background: #f1f5f9;
+  padding: 2rem 2.5rem;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.header {
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem 2rem;
+/* ── Toolbar ─────────────────────────────────────────── */
+
+.toolbar {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-}
-
-.title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
   gap: 1rem;
 }
 
-.username {
-  color: #64748b;
-  font-size: 0.9rem;
+.pageTitle {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 2px;
+  letter-spacing: -0.02em;
 }
 
-.btnSecondary {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s;
+.pageDesc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
-.btnSecondary:hover {
-  background: #f9fafb;
-}
+/* ── Buttons ─────────────────────────────────────────── */
 
 .btnPrimary {
-  padding: 0.5rem 1rem;
-  background: #3b82f6;
+  padding: 0.55rem 1.1rem;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
 }
 
 .btnPrimary:hover:not(:disabled) {
-  background: #2563eb;
+  background: var(--color-primary-hover);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
 .btnPrimary:disabled {
@@ -68,227 +54,271 @@
   cursor: not-allowed;
 }
 
-.btnLogout {
-  padding: 0.5rem 1rem;
+.btnSecondary {
+  padding: 0.55rem 1rem;
   background: transparent;
-  color: #ef4444;
-  border: 1px solid #fca5a5;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
-.btnLogout:hover {
-  background: #fef2f2;
+.btnSecondary:hover {
+  background: var(--color-surface-hover);
 }
 
-.main {
-  padding: 2rem;
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+/* ── Form card ───────────────────────────────────────── */
 
-/* Form card */
 .card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  padding: 2rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
 .cardTitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0;
+}
+
+.editUsername {
+  color: var(--color-primary);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.875rem;
 }
 
 .label {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
   font-size: 0.85rem;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 .hint {
   font-weight: 400;
-  color: #94a3b8;
+  color: var(--color-text-muted);
 }
 
 .input {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 0.6rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
   outline: none;
-  background: #fff;
-  transition: border-color 0.2s;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input:focus {
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
 }
 
 .formFooter {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-subtle);
 }
 
-/* Table */
+/* ── Table controls ──────────────────────────────────── */
+
+.tableControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.83rem;
+  color: var(--color-text-muted);
+}
+
+.rowsSelect {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.83rem;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+/* ── Table ───────────────────────────────────────────── */
+
+.tableWrapper {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  background: var(--color-surface);
 }
 
 .table th {
   background: #f8fafc;
-  color: #475569;
-  font-size: 0.8rem;
-  font-weight: 700;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   padding: 0.75rem 1rem;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .table td {
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.9rem;
-  color: #1e293b;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
 
 .table tr:last-child td {
   border-bottom: none;
 }
 
-.table tr.inactive td {
-  color: #94a3b8;
+.table tbody tr:hover {
+  background: var(--color-surface-hover);
 }
 
-/* Badges */
-.badge {
+.rowInactive td {
+  opacity: 0.55;
+}
+
+.usernameCell {
+  font-weight: 500;
+  color: var(--color-text) !important;
+}
+
+/* ── Role badges ─────────────────────────────────────── */
+
+.roleBadge {
   display: inline-block;
-  padding: 0.2rem 0.6rem;
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
-.roleADMIN   { background: #fef3c7; color: #92400e; }
-.roleMANAGER { background: #dbeafe; color: #1e40af; }
-.roleEMPLOYEE { background: #f0fdf4; color: #166534; }
-
-.active       { color: #16a34a; font-weight: 600; font-size: 0.85rem; }
-.inactive_badge { color: #94a3b8; font-weight: 600; font-size: 0.85rem; }
-
-/* Row actions */
-.rowActions {
-  display: flex;
-  gap: 0.5rem;
+.roleADMIN {
+  background: #fef3c7;
+  color: #92400e;
 }
 
-.editUsername {
-  color: #3b82f6;
-  font-weight: 700;
+.roleMANAGER {
+  background: var(--color-primary-light);
+  color: #1e40af;
+}
+
+.roleEMPLOYEE {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+/* ── Status badges ───────────────────────────────────── */
+
+.statusActive {
+  color: var(--color-success-text);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.statusInactive {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+/* ── Row actions ─────────────────────────────────────── */
+
+.rowActions {
+  display: flex;
+  gap: 0.35rem;
 }
 
 .btnEdit {
-  padding: 0.3rem 0.7rem;
-  border: 1px solid #bfdbfe;
-  border-radius: 6px;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-sm);
   background: transparent;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 500;
   cursor: pointer;
-  color: #2563eb;
-  transition: background 0.2s;
+  color: var(--color-primary);
+  transition: background 0.15s;
 }
 
-.btnEdit:hover { background: #eff6ff; }
+.btnEdit:hover {
+  background: var(--color-primary-light);
+}
 
 .btnToggle {
-  padding: 0.3rem 0.7rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: transparent;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 500;
   cursor: pointer;
-  color: #374151;
-  transition: background 0.2s;
+  color: var(--color-text-secondary);
+  transition: background 0.15s;
 }
 
-.btnToggle:hover { background: #f9fafb; }
+.btnToggle:hover {
+  background: var(--color-surface-hover);
+}
 
 .btnDelete {
-  padding: 0.3rem 0.7rem;
-  border: 1px solid #fca5a5;
-  border-radius: 6px;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-sm);
   background: transparent;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 500;
   cursor: pointer;
-  color: #ef4444;
-  transition: background 0.2s;
+  color: var(--color-danger-text);
+  transition: background 0.15s;
 }
 
-.btnDelete:hover { background: #fef2f2; }
-
-.tableControls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  color: #64748b;
+.btnDelete:hover {
+  background: var(--color-danger-bg);
 }
 
-.rowsSelect {
-  margin-left: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  background: #fff;
-  cursor: pointer;
-}
+/* ── Misc ────────────────────────────────────────────── */
 
-/* Misc */
 .info {
-  color: #64748b;
+  color: var(--color-text-muted);
   text-align: center;
   padding: 2rem;
+  font-size: 0.9rem;
 }
 
 .error {
-  color: #dc2626;
+  color: var(--color-danger-text);
   font-size: 0.85rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.875rem;
   margin: 0;
   white-space: pre-wrap;
 }

@@ -75,28 +75,34 @@ export default function ProductForm() {
     }
   }
 
-  if (loadingForm) return <div className={styles.page}><p style={{ padding: '2rem' }}>Carregando...</p></div>
+  if (loadingForm) return <div className={styles.page}><p className={styles.loadingMsg}>Carregando...</p></div>
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.back} to="/produtos">← Voltar</Link>
-        <h1 className={styles.title}>{isEdit ? 'Editar Produto' : 'Novo Produto'}</h1>
-      </header>
+      <div className={styles.breadcrumb}>
+        <Link className={styles.back} to="/produtos">Produtos</Link>
+        <span className={styles.breadcrumbSep}>/</span>
+        <span>{isEdit ? 'Editar Produto' : 'Novo Produto'}</span>
+      </div>
 
-      <main className={styles.main}>
+      <div className={styles.toolbar}>
+        <h1 className={styles.pageTitle}>{isEdit ? 'Editar Produto' : 'Novo Produto'}</h1>
+      </div>
+
+      <div className={styles.formWrapper}>
         <form className={styles.card} onSubmit={handleSubmit}>
           {error && <p className={styles.error}>{error}</p>}
           {success && <p className={styles.success}>{success}</p>}
 
           <label className={styles.label}>
-            Nome
+            Nome do produto
             <input
               className={styles.input}
               type="text"
               name="name"
               value={form.name}
               onChange={handleChange}
+              placeholder="Ex: Arroz branco"
               required
             />
           </label>
@@ -118,7 +124,7 @@ export default function ProductForm() {
           </label>
 
           <label className={styles.label}>
-            Unidade
+            Unidade de medida
             <select
               className={styles.input}
               name="unit"
@@ -143,6 +149,7 @@ export default function ProductForm() {
               onChange={handleChange}
               min="0"
               step="any"
+              placeholder="0"
               required
             />
           </label>
@@ -154,7 +161,7 @@ export default function ProductForm() {
             </button>
           </div>
         </form>
-      </main>
+      </div>
     </div>
   )
 }

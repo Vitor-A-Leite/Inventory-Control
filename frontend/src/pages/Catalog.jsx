@@ -1,28 +1,25 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../api/axios'
 import styles from './Catalog.module.css'
 
 export default function Catalog() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
 
-  // ── Categories ──────────────────────────────────────────
   const [categories, setCategories] = useState([])
   const [catLoading, setCatLoading] = useState(true)
   const [catError, setCatError] = useState('')
   const [newCatName, setNewCatName] = useState('')
   const [addingCat, setAddingCat] = useState(false)
-  const [editingCat, setEditingCat] = useState(null) // { id, name }
+  const [editingCat, setEditingCat] = useState(null)
   const [savingCat, setSavingCat] = useState(false)
 
-  // ── Units ────────────────────────────────────────────────
   const [units, setUnits] = useState([])
   const [unitLoading, setUnitLoading] = useState(true)
   const [unitError, setUnitError] = useState('')
   const [newUnit, setNewUnit] = useState({ name: '', abbreviation: '' })
   const [addingUnit, setAddingUnit] = useState(false)
-  const [editingUnit, setEditingUnit] = useState(null) // { id, name, abbreviation }
+  const [editingUnit, setEditingUnit] = useState(null)
   const [savingUnit, setSavingUnit] = useState(false)
 
   useEffect(() => {
@@ -37,7 +34,6 @@ export default function Catalog() {
       .finally(() => setUnitLoading(false))
   }, [])
 
-  // ── Category handlers ────────────────────────────────────
   async function handleAddCategory(e) {
     e.preventDefault()
     if (!newCatName.trim()) return
@@ -71,7 +67,7 @@ export default function Catalog() {
   }
 
   async function handleDeleteCategory(id) {
-    if (!window.confirm('Excluir esta categoria? Produtos vinculados a ela não poderão ser deletados.')) return
+    if (!window.confirm('Excluir esta categoria?')) return
     setCatError('')
     try {
       await api.delete(`/products/categories/${id}/`)
@@ -81,7 +77,6 @@ export default function Catalog() {
     }
   }
 
-  // ── Unit handlers ────────────────────────────────────────
   async function handleAddUnit(e) {
     e.preventDefault()
     if (!newUnit.name.trim() || !newUnit.abbreviation.trim()) return
@@ -123,7 +118,7 @@ export default function Catalog() {
   }
 
   async function handleDeleteUnit(id) {
-    if (!window.confirm('Excluir esta unidade? Produtos vinculados a ela não poderão ser deletados.')) return
+    if (!window.confirm('Excluir esta unidade?')) return
     setUnitError('')
     try {
       await api.delete(`/products/units/${id}/`)
@@ -135,184 +130,174 @@ export default function Catalog() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Catálogo</h1>
-        <div className={styles.actions}>
-          <span className={styles.username}>Olá, {user?.username}</span>
-          <Link className={styles.btnSecondary} to="/produtos">Produtos</Link>
-          <Link className={styles.btnSecondary} to="/lotes">Lotes</Link>
-          <button className={styles.btnLogout} onClick={logout}>Sair</button>
-        </div>
-      </header>
+      <div className={styles.toolbar}>
+        <h1 className={styles.pageTitle}>Catálogo</h1>
+      </div>
 
-      <main className={styles.main}>
-        <div className={styles.grid}>
+      <div className={styles.grid}>
+        {/* ── Categorias ── */}
+        <section className={styles.card}>
+          <h2 className={styles.cardTitle}>Categorias</h2>
 
-          {/* ── Categorias ── */}
-          <section className={styles.card}>
-            <h2 className={styles.cardTitle}>Categorias</h2>
+          {catError && <p className={styles.error}>{catError}</p>}
 
-            {catError && <p className={styles.error}>{catError}</p>}
-
-            {catLoading ? (
-              <p className={styles.info}>Carregando...</p>
-            ) : (
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {categories.length === 0 && (
-                    <tr><td colSpan={2} className={styles.empty}>Nenhuma categoria cadastrada.</td></tr>
-                  )}
-                  {categories.map((c) => (
-                    <tr key={c.id}>
-                      {editingCat?.id === c.id ? (
-                        <td colSpan={2}>
-                          <form className={styles.inlineForm} onSubmit={handleSaveCategory}>
-                            <input
-                              className={styles.inlineInput}
-                              value={editingCat.name}
-                              onChange={(e) => setEditingCat({ ...editingCat, name: e.target.value })}
-                              autoFocus
-                              required
-                            />
-                            <button className={styles.btnSave} type="submit" disabled={savingCat}>
-                              {savingCat ? '...' : 'Salvar'}
-                            </button>
-                            <button className={styles.btnCancel} type="button" onClick={() => setEditingCat(null)}>
-                              Cancelar
-                            </button>
-                          </form>
+          {catLoading ? (
+            <p className={styles.info}>Carregando...</p>
+          ) : (
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {categories.length === 0 && (
+                  <tr><td colSpan={2} className={styles.empty}>Nenhuma categoria cadastrada.</td></tr>
+                )}
+                {categories.map((c) => (
+                  <tr key={c.id}>
+                    {editingCat?.id === c.id ? (
+                      <td colSpan={2}>
+                        <form className={styles.inlineForm} onSubmit={handleSaveCategory}>
+                          <input
+                            className={styles.inlineInput}
+                            value={editingCat.name}
+                            onChange={(e) => setEditingCat({ ...editingCat, name: e.target.value })}
+                            autoFocus
+                            required
+                          />
+                          <button className={styles.btnSave} type="submit" disabled={savingCat}>
+                            {savingCat ? '...' : 'Salvar'}
+                          </button>
+                          <button className={styles.btnCancel} type="button" onClick={() => setEditingCat(null)}>
+                            Cancelar
+                          </button>
+                        </form>
+                      </td>
+                    ) : (
+                      <>
+                        <td>{c.name}</td>
+                        <td className={styles.rowActions}>
+                          <button className={styles.btnEdit} onClick={() => setEditingCat({ id: c.id, name: c.name })}>
+                            Editar
+                          </button>
+                          <button className={styles.btnDelete} onClick={() => handleDeleteCategory(c.id)}>
+                            Excluir
+                          </button>
                         </td>
-                      ) : (
-                        <>
-                          <td>{c.name}</td>
-                          <td className={styles.rowActions}>
-                            <button className={styles.btnEdit} onClick={() => setEditingCat({ id: c.id, name: c.name })}>
-                              Editar
-                            </button>
-                            <button className={styles.btnDelete} onClick={() => handleDeleteCategory(c.id)}>
-                              Excluir
-                            </button>
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-
-            <form className={styles.addForm} onSubmit={handleAddCategory}>
-              <input
-                className={styles.addInput}
-                placeholder="Nome da categoria..."
-                value={newCatName}
-                onChange={(e) => setNewCatName(e.target.value)}
-                required
-              />
-              <button className={styles.btnAdd} type="submit" disabled={addingCat}>
-                {addingCat ? '...' : '+ Adicionar'}
-              </button>
-            </form>
-          </section>
-
-          {/* ── Unidades ── */}
-          <section className={styles.card}>
-            <h2 className={styles.cardTitle}>Unidades de Medida</h2>
-
-            {unitError && <p className={styles.error}>{unitError}</p>}
-
-            {unitLoading ? (
-              <p className={styles.info}>Carregando...</p>
-            ) : (
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Abreviação</th>
-                    <th></th>
+                      </>
+                    )}
                   </tr>
-                </thead>
-                <tbody>
-                  {units.length === 0 && (
-                    <tr><td colSpan={3} className={styles.empty}>Nenhuma unidade cadastrada.</td></tr>
-                  )}
-                  {units.map((u) => (
-                    <tr key={u.id}>
-                      {editingUnit?.id === u.id ? (
-                        <td colSpan={3}>
-                          <form className={styles.inlineForm} onSubmit={handleSaveUnit}>
-                            <input
-                              className={styles.inlineInput}
-                              placeholder="Nome"
-                              value={editingUnit.name}
-                              onChange={(e) => setEditingUnit({ ...editingUnit, name: e.target.value })}
-                              autoFocus
-                              required
-                            />
-                            <input
-                              className={styles.inlineInputShort}
-                              placeholder="Abrev."
-                              value={editingUnit.abbreviation}
-                              onChange={(e) => setEditingUnit({ ...editingUnit, abbreviation: e.target.value })}
-                              required
-                            />
-                            <button className={styles.btnSave} type="submit" disabled={savingUnit}>
-                              {savingUnit ? '...' : 'Salvar'}
-                            </button>
-                            <button className={styles.btnCancel} type="button" onClick={() => setEditingUnit(null)}>
-                              Cancelar
-                            </button>
-                          </form>
+                ))}
+              </tbody>
+            </table>
+          )}
+
+          <form className={styles.addForm} onSubmit={handleAddCategory}>
+            <input
+              className={styles.addInput}
+              placeholder="Nome da categoria..."
+              value={newCatName}
+              onChange={(e) => setNewCatName(e.target.value)}
+              required
+            />
+            <button className={styles.btnAdd} type="submit" disabled={addingCat}>
+              {addingCat ? '...' : '+ Adicionar'}
+            </button>
+          </form>
+        </section>
+
+        {/* ── Unidades ── */}
+        <section className={styles.card}>
+          <h2 className={styles.cardTitle}>Unidades de Medida</h2>
+
+          {unitError && <p className={styles.error}>{unitError}</p>}
+
+          {unitLoading ? (
+            <p className={styles.info}>Carregando...</p>
+          ) : (
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Abreviação</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {units.length === 0 && (
+                  <tr><td colSpan={3} className={styles.empty}>Nenhuma unidade cadastrada.</td></tr>
+                )}
+                {units.map((u) => (
+                  <tr key={u.id}>
+                    {editingUnit?.id === u.id ? (
+                      <td colSpan={3}>
+                        <form className={styles.inlineForm} onSubmit={handleSaveUnit}>
+                          <input
+                            className={styles.inlineInput}
+                            placeholder="Nome"
+                            value={editingUnit.name}
+                            onChange={(e) => setEditingUnit({ ...editingUnit, name: e.target.value })}
+                            autoFocus
+                            required
+                          />
+                          <input
+                            className={styles.inlineInputShort}
+                            placeholder="Abrev."
+                            value={editingUnit.abbreviation}
+                            onChange={(e) => setEditingUnit({ ...editingUnit, abbreviation: e.target.value })}
+                            required
+                          />
+                          <button className={styles.btnSave} type="submit" disabled={savingUnit}>
+                            {savingUnit ? '...' : 'Salvar'}
+                          </button>
+                          <button className={styles.btnCancel} type="button" onClick={() => setEditingUnit(null)}>
+                            Cancelar
+                          </button>
+                        </form>
+                      </td>
+                    ) : (
+                      <>
+                        <td>{u.name}</td>
+                        <td><span className={styles.abbr}>{u.abbreviation}</span></td>
+                        <td className={styles.rowActions}>
+                          <button className={styles.btnEdit} onClick={() => setEditingUnit({ id: u.id, name: u.name, abbreviation: u.abbreviation })}>
+                            Editar
+                          </button>
+                          <button className={styles.btnDelete} onClick={() => handleDeleteUnit(u.id)}>
+                            Excluir
+                          </button>
                         </td>
-                      ) : (
-                        <>
-                          <td>{u.name}</td>
-                          <td><span className={styles.abbr}>{u.abbreviation}</span></td>
-                          <td className={styles.rowActions}>
-                            <button className={styles.btnEdit} onClick={() => setEditingUnit({ id: u.id, name: u.name, abbreviation: u.abbreviation })}>
-                              Editar
-                            </button>
-                            <button className={styles.btnDelete} onClick={() => handleDeleteUnit(u.id)}>
-                              Excluir
-                            </button>
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                      </>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
 
-            <form className={styles.addForm} onSubmit={handleAddUnit}>
-              <input
-                className={styles.addInput}
-                placeholder="Nome da unidade..."
-                value={newUnit.name}
-                onChange={(e) => setNewUnit((p) => ({ ...p, name: e.target.value }))}
-                required
-              />
-              <input
-                className={styles.addInputShort}
-                placeholder="Abrev."
-                value={newUnit.abbreviation}
-                onChange={(e) => setNewUnit((p) => ({ ...p, abbreviation: e.target.value }))}
-                required
-              />
-              <button className={styles.btnAdd} type="submit" disabled={addingUnit}>
-                {addingUnit ? '...' : '+ Adicionar'}
-              </button>
-            </form>
-          </section>
-
-        </div>
-      </main>
+          <form className={styles.addForm} onSubmit={handleAddUnit}>
+            <input
+              className={styles.addInput}
+              placeholder="Nome da unidade..."
+              value={newUnit.name}
+              onChange={(e) => setNewUnit((p) => ({ ...p, name: e.target.value }))}
+              required
+            />
+            <input
+              className={styles.addInputShort}
+              placeholder="Abrev."
+              value={newUnit.abbreviation}
+              onChange={(e) => setNewUnit((p) => ({ ...p, abbreviation: e.target.value }))}
+              required
+            />
+            <button className={styles.btnAdd} type="submit" disabled={addingUnit}>
+              {addingUnit ? '...' : '+ Adicionar'}
+            </button>
+          </form>
+        </section>
+      </div>
     </div>
   )
 }

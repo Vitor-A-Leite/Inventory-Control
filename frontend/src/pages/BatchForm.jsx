@@ -52,12 +52,17 @@ export default function BatchForm() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.back} to="/lotes">← Lotes</Link>
-        <h1 className={styles.title}>Novo Lote</h1>
-      </header>
+      <div className={styles.breadcrumb}>
+        <Link className={styles.back} to="/lotes">Lotes</Link>
+        <span className={styles.breadcrumbSep}>/</span>
+        <span>Novo Lote</span>
+      </div>
 
-      <main className={styles.main}>
+      <div className={styles.toolbar}>
+        <h1 className={styles.pageTitle}>Novo Lote</h1>
+      </div>
+
+      <div className={styles.formWrapper}>
         <form className={styles.card} onSubmit={handleSubmit}>
           {error && <pre className={styles.error}>{error}</pre>}
           {success && <p className={styles.success}>{success}</p>}
@@ -65,7 +70,7 @@ export default function BatchForm() {
           <label className={styles.label}>
             Produto
             {loadingProducts ? (
-              <span className={styles.loading}>Carregando produtos...</span>
+              <span className={styles.loadingText}>Carregando produtos...</span>
             ) : (
               <select
                 className={styles.input}
@@ -83,8 +88,9 @@ export default function BatchForm() {
           </label>
 
           <label className={styles.label}>
-            Quantidade{selectedProduct?.unit_abbreviation && (
-              <span className={styles.unit}>({selectedProduct.unit_abbreviation})</span>
+            Quantidade
+            {selectedProduct?.unit_abbreviation && (
+              <span className={styles.unitHint}>em {selectedProduct.unit_abbreviation}</span>
             )}
             <input
               className={styles.input}
@@ -119,7 +125,7 @@ export default function BatchForm() {
             </button>
           </div>
         </form>
-      </main>
+      </div>
     </div>
   )
 }

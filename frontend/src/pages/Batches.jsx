@@ -17,7 +17,7 @@ function expirationStatus(dateStr) {
 }
 
 export default function Batches() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [batches, setBatches] = useState([])
   const [categories, setCategories] = useState([])
@@ -59,162 +59,140 @@ export default function Batches() {
   return (
     <div className={styles.page}>
       {qrBatch && <QrCodeModal batch={qrBatch} onClose={() => setQrBatch(null)} />}
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Link className={styles.back} to="/produtos">← Produtos</Link>
-          <h1 className={styles.title}>Lotes</h1>
+
+      <div className={styles.toolbar}>
+        <div>
+          <h1 className={styles.pageTitle}>Lotes</h1>
+          {!loading && (
+            <p className={styles.pageDesc}>{batches.length} lote(s) cadastrado(s)</p>
+          )}
         </div>
-        <div className={styles.actions}>
-          <span className={styles.username}>Olá, {user?.username}</span>
-          <button
-            className={styles.btnScanner}
-            onClick={() => navigate('/scanner')}
-          >
+        <div className={styles.toolbarActions}>
+          <button className={styles.btnSecondary} onClick={() => navigate('/scanner')}>
             Escanear QR
           </button>
-          <button
-            className={styles.btnPrimary}
-            onClick={() => navigate('/lotes/novo')}
-          >
-            + Novo lote
-          </button>
-          <button
-            className={styles.btnPrimary}
-            onClick={() => navigate('/consumos/novo')}
-          >
+          <button className={styles.btnSecondary} onClick={() => navigate('/consumos/novo')}>
             + Registrar consumo
           </button>
-          <button className={styles.btnLogout} onClick={logout}>Sair</button>
+          {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+            <button className={styles.btnPrimary} onClick={() => navigate('/lotes/novo')}>
+              + Novo lote
+            </button>
+          )}
         </div>
-      </header>
+      </div>
 
-      <main className={styles.main}>
-        <div className={styles.filterBar}>
-          <input
-            className={styles.filterInput}
-            type="search"
-            placeholder="Buscar por produto..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <select
-            className={styles.filterInput}
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Todas as categorias</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-          <select
-            className={styles.filterInput}
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="">Todos os status</option>
-            <option value="ok">✓ Válido</option>
-            <option value="warning">⚠ Próximo do vencimento</option>
-            <option value="expired">✕ Vencido</option>
-          </select>
+      <div className={styles.filterBar}>
+        <input
+          className={styles.filterInput}
+          type="search"
+          placeholder="Buscar por produto..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select
+          className={styles.filterInput}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Todas as categorias</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option>
+          ))}
+        </select>
+        <select
+          className={styles.filterInput}
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="">Todos os status</option>
+          <option value="ok">Válido</option>
+          <option value="warning">Próximo do vencimento</option>
+          <option value="expired">Vencido</option>
+        </select>
+      </div>
+
+      {loading && <p className={styles.info}>Carregando...</p>}
+      {error && <p className={styles.error}>{error}</p>}
+
+      {!loading && !error && filtered.length === 0 && (
+        <p className={styles.info}>
+          {search ? 'Nenhum lote encontrado para essa busca.' : 'Nenhum lote cadastrado ainda.'}
+        </p>
+      )}
+
+      {filtered.length > 0 && (
+        <div className={styles.tableControls}>
+          <span>{Math.min(rowsPerPage, filtered.length)} de {filtered.length} lote(s)</span>
+          <label>
+            Linhas por página:
+            <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </label>
         </div>
+      )}
 
-        {loading && <p className={styles.info}>Carregando...</p>}
-        {error && <p className={styles.error}>{error}</p>}
-
-        {!loading && !error && filtered.length === 0 && (
-          <p className={styles.info}>
-            {search ? 'Nenhum lote encontrado para essa busca.' : 'Nenhum lote cadastrado ainda.'}
-          </p>
-        )}
-
-        {filtered.length > 0 && (
-          <div className={styles.tableControls}>
-            <span>{Math.min(rowsPerPage, filtered.length)} de {filtered.length} lote(s)</span>
-            <label>
-              Linhas por página:
-              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </label>
-          </div>
-        )}
-        {filtered.length > 0 && (
+      {filtered.length > 0 && (
+        <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
                 <th>Produto</th>
-                <th>Quantidade</th>
+                <th>Qtd.</th>
                 <th>Validade</th>
                 <th>Status</th>
                 <th>Cadastrado em</th>
-                <th>Atualizado em</th>
                 <th>QR</th>
-                <th></th>
-                {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && <th></th>}
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {filtered.slice(0, rowsPerPage).map((b) => {
                 const status = expirationStatus(b.expiration_date)
                 return (
-                  <tr key={b.id}>
-                    <td>{b.product_details?.name ?? '—'}</td>
-                    <td>{b.quantity}</td>
+                  <tr key={b.id} className={status.type === 'expired' ? styles.rowExpired : status.type === 'warning' ? styles.rowWarning : ''}>
+                    <td className={styles.nameCell}>{b.product_details?.name ?? '—'}</td>
+                    <td><strong>{b.quantity}</strong></td>
                     <td>{new Date(b.expiration_date + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
                     <td>
                       <span className={`${styles.badge} ${styles[status.type]}`}>
                         {status.label}
                       </span>
                     </td>
-                    <td>{new Date(b.created_at).toLocaleDateString('pt-BR')}</td>
-                    <td>{new Date(b.updated_at).toLocaleDateString('pt-BR')}</td>
+                    <td className={styles.dateCell}>{new Date(b.created_at).toLocaleDateString('pt-BR')}</td>
                     <td>
-                      <button
-                        className={styles.btnQr}
-                        onClick={() => setQrBatch(b)}
-                        title="Exibir QR code"
-                      >
+                      <button className={styles.btnQr} onClick={() => setQrBatch(b)} title="Exibir QR code">
                         QR
                       </button>
                     </td>
                     <td>
-                      <button
-                        className={styles.btnConsume}
-                        onClick={() => navigate(`/consumos/novo?batch=${b.id}`)}
-                        disabled={status.type === 'expired' || b.quantity <= 0}
-                        title={
-                          status.type === 'expired'
-                            ? 'Lote vencido'
-                            : b.quantity <= 0
-                            ? 'Estoque zerado'
-                            : 'Registrar consumo deste lote'
-                        }
-                      >
-                        Registrar consumo
-                      </button>
-                    </td>
-                    {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
-                      <td>
+                      <div className={styles.rowActions}>
                         <button
-                          className={styles.btnDelete}
-                          onClick={() => handleDelete(b.id)}
-                          title="Excluir lote"
+                          className={styles.btnConsume}
+                          onClick={() => navigate(`/consumos/novo?batch=${b.id}`)}
+                          disabled={status.type === 'expired' || b.quantity <= 0}
+                          title={status.type === 'expired' ? 'Lote vencido' : b.quantity <= 0 ? 'Estoque zerado' : 'Registrar consumo'}
                         >
-                          Excluir
+                          Consumir
                         </button>
-                      </td>
-                    )}
+                        {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+                          <button className={styles.btnDelete} onClick={() => handleDelete(b.id)}>
+                            Excluir
+                          </button>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 )
               })}
             </tbody>
           </table>
-        )}
-      </main>
+        </div>
+      )}
     </div>
   )
 }

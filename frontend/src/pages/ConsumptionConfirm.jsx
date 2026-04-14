@@ -10,7 +10,7 @@ export default function ConsumptionConfirm() {
 
   const [quantity, setQuantity] = useState('')
   const [consumerId, setConsumerId] = useState('')
-  const [employee, setEmployee] = useState(null)   // { username, first_name, ... }
+  const [employee, setEmployee] = useState(null)
   const [employeeError, setEmployeeError] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -28,20 +28,16 @@ export default function ConsumptionConfirm() {
     }
   }
 
-  // Sem dados de lote: veio direto pela URL sem passar pelo scanner
   if (!batch) {
     return (
       <div className={styles.page}>
-        <header className={styles.header}>
-          <Link className={styles.back} to="/scanner">← Scanner</Link>
-          <h1 className={styles.title}>Confirmar Consumo</h1>
-        </header>
-        <main className={styles.main}>
-          <div className={styles.noData}>
-            <p>Nenhum lote selecionado.</p>
-            <Link className={styles.btnPrimary} to="/scanner">Escanear QR code</Link>
-          </div>
-        </main>
+        <div className={styles.toolbar}>
+          <h1 className={styles.pageTitle}>Confirmar Consumo</h1>
+        </div>
+        <div className={styles.noData}>
+          <p>Nenhum lote selecionado.</p>
+          <Link className={styles.btnPrimary} to="/scanner">Escanear QR code</Link>
+        </div>
       </div>
     )
   }
@@ -91,44 +87,34 @@ export default function ConsumptionConfirm() {
   if (success) {
     return (
       <div className={styles.page}>
-        <header className={styles.header}>
-          <Link className={styles.back} to="/scanner">← Scanner</Link>
-          <h1 className={styles.title}>Confirmar Consumo</h1>
-        </header>
-        <main className={styles.main}>
-          <div className={styles.successBox}>
-            <span className={styles.successIcon}>✓</span>
-            <p className={styles.successTitle}>Consumo registrado!</p>
-            <p className={styles.successSub}>
-              <strong>{batch.product_details?.name}</strong> — {quantity}{' '}
-              {batch.product_details?.unit ?? ''}
-            </p>
-            <div className={styles.successActions}>
-              <button
-                className={styles.btnPrimary}
-                onClick={() => navigate('/scanner')}
-              >
-                Escanear outro
-              </button>
-              <Link className={styles.btnSecondary} to="/lotes">
-                Ver lotes
-              </Link>
-            </div>
+        <div className={styles.toolbar}>
+          <h1 className={styles.pageTitle}>Confirmar Consumo</h1>
+        </div>
+        <div className={styles.successBox}>
+          <span className={styles.successIcon}>✓</span>
+          <p className={styles.successTitle}>Consumo registrado!</p>
+          <p className={styles.successSub}>
+            <strong>{batch.product_details?.name}</strong> — {quantity}{' '}
+            {batch.product_details?.unit ?? ''}
+          </p>
+          <div className={styles.successActions}>
+            <button className={styles.btnPrimary} onClick={() => navigate('/scanner')}>
+              Escanear outro
+            </button>
+            <Link className={styles.btnSecondary} to="/lotes">Ver lotes</Link>
           </div>
-        </main>
+        </div>
       </div>
     )
   }
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.back} to="/scanner">← Scanner</Link>
-        <h1 className={styles.title}>Confirmar Consumo</h1>
-      </header>
+      <div className={styles.toolbar}>
+        <h1 className={styles.pageTitle}>Confirmar Consumo</h1>
+      </div>
 
-      <main className={styles.main}>
-        {/* Cartão de informações do lote */}
+      <div className={styles.content}>
         <div className={`${styles.batchCard} ${!batch.can_consume ? styles.batchCardBlocked : ''}`}>
           <p className={styles.productName}>{batch.product_details?.name}</p>
 
@@ -139,24 +125,14 @@ export default function ConsumptionConfirm() {
             </div>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Validade</span>
-              <span className={styles.metaValue}>
-                {expDate.toLocaleDateString('pt-BR')}
-              </span>
+              <span className={styles.metaValue}>{expDate.toLocaleDateString('pt-BR')}</span>
             </div>
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Status</span>
               <span className={`${styles.badge} ${
-                batch.is_expired
-                  ? styles.expired
-                  : diffDays <= 7
-                  ? styles.warning
-                  : styles.ok
+                batch.is_expired ? styles.expired : diffDays <= 7 ? styles.warning : styles.ok
               }`}>
-                {batch.is_expired
-                  ? 'Vencido'
-                  : diffDays <= 7
-                  ? `Vence em ${diffDays}d`
-                  : 'Válido'}
+                {batch.is_expired ? 'Vencido' : diffDays <= 7 ? `Vence em ${diffDays}d` : 'Válido'}
               </span>
             </div>
           </div>
@@ -170,7 +146,6 @@ export default function ConsumptionConfirm() {
           )}
         </div>
 
-        {/* Formulário de confirmação */}
         {batch.can_consume && (
           <form className={styles.form} onSubmit={handleSubmit}>
             {error && <p className={styles.error}>{error}</p>}
@@ -181,11 +156,7 @@ export default function ConsumptionConfirm() {
                 className={styles.input}
                 type="number"
                 value={consumerId}
-                onChange={(e) => {
-                  setConsumerId(e.target.value)
-                  setEmployee(null)
-                  setEmployeeError('')
-                }}
+                onChange={(e) => { setConsumerId(e.target.value); setEmployee(null); setEmployeeError('') }}
                 onBlur={(e) => validateConsumerId(e.target.value)}
                 min="1"
                 max="999"
@@ -198,9 +169,7 @@ export default function ConsumptionConfirm() {
                   ✓ {[employee.first_name, employee.last_name].filter(Boolean).join(' ') || employee.username}
                 </span>
               )}
-              {employeeError && (
-                <span className={styles.employeeError}>{employeeError}</span>
-              )}
+              {employeeError && <span className={styles.employeeError}>{employeeError}</span>}
             </label>
 
             <label className={styles.label}>
@@ -232,7 +201,7 @@ export default function ConsumptionConfirm() {
             <Link className={styles.btnPrimary} to="/scanner">Escanear outro</Link>
           </div>
         )}
-      </main>
+      </div>
     </div>
   )
 }

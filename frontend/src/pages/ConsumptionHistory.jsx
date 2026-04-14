@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../api/axios'
 import styles from './ConsumptionHistory.module.css'
@@ -7,7 +6,7 @@ import styles from './ConsumptionHistory.module.css'
 const emptyFilters = { date_from: '', date_to: '', product: '', category: '' }
 
 export default function ConsumptionHistory() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const canDelete = user?.role === 'ADMIN' || user?.role === 'MANAGER'
 
   const [categories, setCategories] = useState([])
@@ -62,104 +61,97 @@ export default function ConsumptionHistory() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Histórico de Consumos</h1>
-        <div className={styles.actions}>
-          <span className={styles.username}>Olá, {user?.username}</span>
-          <Link className={styles.btnSecondary} to="/produtos">Produtos</Link>
-          <Link className={styles.btnSecondary} to="/lotes">Lotes</Link>
-          <button className={styles.btnLogout} onClick={logout}>Sair</button>
+      <div className={styles.toolbar}>
+        <h1 className={styles.pageTitle}>Histórico de Consumos</h1>
+      </div>
+
+      <form className={styles.filterPanel} onSubmit={handleSearch}>
+        <p className={styles.filterTitle}>Filtros de pesquisa</p>
+
+        <div className={styles.filterGrid}>
+          <label className={styles.filterLabel}>
+            Produto
+            <input
+              className={styles.filterInput}
+              type="search"
+              name="product"
+              value={filters.product}
+              onChange={handleChange}
+              placeholder="Nome do produto..."
+            />
+          </label>
+
+          <label className={styles.filterLabel}>
+            Categoria
+            <select
+              className={styles.filterInput}
+              name="category"
+              value={filters.category}
+              onChange={handleChange}
+            >
+              <option value="">Todas</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </label>
+
+          <label className={styles.filterLabel}>
+            Data inicial
+            <input
+              className={styles.filterInput}
+              type="date"
+              name="date_from"
+              value={filters.date_from}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className={styles.filterLabel}>
+            Data final
+            <input
+              className={styles.filterInput}
+              type="date"
+              name="date_to"
+              value={filters.date_to}
+              onChange={handleChange}
+            />
+          </label>
         </div>
-      </header>
 
-      <main className={styles.main}>
-        {/* Painel de filtros */}
-        <form className={styles.filterPanel} onSubmit={handleSearch}>
-          <p className={styles.filterTitle}>Opções de Pesquisa</p>
+        <div className={styles.filterActions}>
+          <button type="submit" className={styles.btnPrimary} disabled={loading}>
+            {loading ? 'Pesquisando...' : 'Pesquisar'}
+          </button>
+          <button type="button" className={styles.btnSecondary} onClick={handleClear}>
+            Limpar
+          </button>
+        </div>
+      </form>
 
-          <div className={styles.filterGrid}>
-            <label className={styles.filterLabel}>
-              Produto
-              <input
-                className={styles.filterInput}
-                type="search"
-                name="product"
-                value={filters.product}
-                onChange={handleChange}
-                placeholder="Nome do produto..."
-              />
-            </label>
+      {error && <p className={styles.error}>{error}</p>}
 
-            <label className={styles.filterLabel}>
-              Categoria
-              <select
-                className={styles.filterInput}
-                name="category"
-                value={filters.category}
-                onChange={handleChange}
-              >
-                <option value="">Todas</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-            </label>
+      {searched && !loading && records.length === 0 && !error && (
+        <p className={styles.info}>Nenhum consumo encontrado para os filtros selecionados.</p>
+      )}
 
-            <label className={styles.filterLabel}>
-              Data inicial
-              <input
-                className={styles.filterInput}
-                type="date"
-                name="date_from"
-                value={filters.date_from}
-                onChange={handleChange}
-              />
-            </label>
+      {records.length > 0 && (
+        <div className={styles.tableControls}>
+          <span>{Math.min(rowsPerPage, records.length)} de {records.length} registro(s)</span>
+          <label>
+            Linhas por página:
+            <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </label>
+        </div>
+      )}
 
-            <label className={styles.filterLabel}>
-              Data final
-              <input
-                className={styles.filterInput}
-                type="date"
-                name="date_to"
-                value={filters.date_to}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-
-          <div className={styles.filterActions}>
-            <button type="submit" className={styles.btnPrimary} disabled={loading}>
-              {loading ? 'Pesquisando...' : 'Pesquisar'}
-            </button>
-            <button type="button" className={styles.btnSecondary} onClick={handleClear}>
-              Limpar
-            </button>
-          </div>
-        </form>
-
-        {/* Resultados */}
-        {error && <p className={styles.error}>{error}</p>}
-
-        {searched && !loading && records.length === 0 && !error && (
-          <p className={styles.info}>Nenhum consumo encontrado para os filtros selecionados.</p>
-        )}
-
-        {records.length > 0 && (
-          <div className={styles.tableControls}>
-            <span>{Math.min(rowsPerPage, records.length)} de {records.length} registro(s)</span>
-            <label>
-              Linhas por página:
-              <select className={styles.rowsSelect} value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </label>
-          </div>
-        )}
-        {records.length > 0 && (
+      {records.length > 0 && (
+        <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -176,10 +168,10 @@ export default function ConsumptionHistory() {
             <tbody>
               {records.slice(0, rowsPerPage).map((r) => (
                 <tr key={r.id}>
-                  <td>{new Date(r.created_at).toLocaleString('pt-BR')}</td>
-                  <td>{r.product_name}</td>
+                  <td className={styles.dateCell}>{new Date(r.created_at).toLocaleString('pt-BR')}</td>
+                  <td className={styles.nameCell}>{r.product_name}</td>
                   <td>{r.category_name}</td>
-                  <td>{r.quantity_used}</td>
+                  <td><strong>{r.quantity_used}</strong></td>
                   <td>{r.unit_abbr}</td>
                   <td>{new Date(r.batch_expiration + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
                   <td>{r.employee}</td>
@@ -194,8 +186,8 @@ export default function ConsumptionHistory() {
               ))}
             </tbody>
           </table>
-        )}
-      </main>
+        </div>
+      )}
     </div>
   )
 }

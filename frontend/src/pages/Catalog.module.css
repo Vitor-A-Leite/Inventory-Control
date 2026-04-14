@@ -1,77 +1,26 @@
 .page {
-  min-height: 100vh;
-  background: #f1f5f9;
+  padding: 2rem 2.5rem;
+  max-width: 1200px;
 }
 
-.header {
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.toolbar {
+  margin-bottom: 1.5rem;
 }
 
-.title {
-  font-size: 1.4rem;
+.pageTitle {
+  font-size: 1.45rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.username {
-  color: #64748b;
-  font-size: 0.9rem;
-}
-
-.btnSecondary {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.btnSecondary:hover {
-  background: #f9fafb;
-}
-
-.btnLogout {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #ef4444;
-  border: 1px solid #fca5a5;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btnLogout:hover {
-  background: #fef2f2;
-}
-
-.main {
-  padding: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
+/* ── Grid ────────────────────────────────────────────── */
 
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -80,11 +29,13 @@
   }
 }
 
-/* Card */
+/* ── Card ────────────────────────────────────────────── */
+
 .card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -92,13 +43,14 @@
 }
 
 .cardTitle {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0;
 }
 
-/* Table */
+/* ── Table ───────────────────────────────────────────── */
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -106,35 +58,40 @@
 
 .table th {
   background: #f8fafc;
-  color: #64748b;
-  font-size: 0.78rem;
-  font-weight: 700;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   padding: 0.6rem 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .table td {
   padding: 0.7rem 0.75rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.9rem;
-  color: #1e293b;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
 
 .table tr:last-child td {
   border-bottom: none;
 }
 
+.table tbody tr:hover {
+  background: var(--color-surface-hover);
+}
+
 .empty {
-  color: #94a3b8;
+  color: var(--color-text-muted);
   font-size: 0.85rem;
   text-align: center;
   padding: 1rem 0;
 }
 
-/* Inline edit form */
+/* ── Inline edit form ────────────────────────────────── */
+
 .inlineForm {
   display: flex;
   align-items: center;
@@ -145,61 +102,71 @@
 .inlineInput {
   flex: 1;
   padding: 0.4rem 0.65rem;
-  border: 1px solid #3b82f6;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
   outline: none;
   min-width: 100px;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 .inlineInputShort {
   width: 80px;
   padding: 0.4rem 0.65rem;
-  border: 1px solid #3b82f6;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
   outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
-/* Add form at bottom */
+/* ── Add form ────────────────────────────────────────── */
+
 .addForm {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  padding-top: 0.5rem;
-  border-top: 1px solid #f1f5f9;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .addInput {
   flex: 1;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   min-width: 120px;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .addInput:focus {
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
 }
 
 .addInputShort {
   width: 90px;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .addInputShort:focus {
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
 }
 
-/* Buttons */
+/* ── Buttons ─────────────────────────────────────────── */
+
 .rowActions {
   display: flex;
   gap: 0.4rem;
@@ -208,50 +175,50 @@
 
 .btnEdit {
   padding: 0.25rem 0.6rem;
-  border: 1px solid #3b82f6;
-  border-radius: 6px;
-  color: #3b82f6;
-  font-size: 0.8rem;
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+  font-size: 0.78rem;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
 .btnEdit:hover {
-  background: #eff6ff;
+  background: var(--color-primary-light);
 }
 
 .btnDelete {
   padding: 0.25rem 0.6rem;
-  border: 1px solid #dc2626;
-  border-radius: 6px;
-  color: #dc2626;
-  font-size: 0.8rem;
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-danger-text);
+  font-size: 0.78rem;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
 .btnDelete:hover {
-  background: #fef2f2;
+  background: var(--color-danger-bg);
 }
 
 .btnSave {
   padding: 0.3rem 0.8rem;
-  background: #3b82f6;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .btnSave:hover:not(:disabled) {
-  background: #2563eb;
+  background: var(--color-primary-hover);
 }
 
 .btnSave:disabled {
@@ -261,27 +228,27 @@
 
 .btnCancel {
   padding: 0.3rem 0.8rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  color: #374151;
-  font-size: 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
 .btnCancel:hover {
-  background: #f9fafb;
+  background: var(--color-surface-hover);
 }
 
 .btnAdd {
   padding: 0.5rem 1rem;
-  background: #3b82f6;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
@@ -289,7 +256,7 @@
 }
 
 .btnAdd:hover:not(:disabled) {
-  background: #2563eb;
+  background: var(--color-primary-hover);
 }
 
 .btnAdd:disabled {
@@ -297,29 +264,30 @@
   cursor: not-allowed;
 }
 
-/* Misc */
+/* ── Misc ────────────────────────────────────────────── */
+
 .abbr {
   display: inline-block;
-  background: #f0f9ff;
-  color: #0369a1;
-  border: 1px solid #bae6fd;
-  border-radius: 4px;
-  padding: 0.1rem 0.45rem;
-  font-size: 0.82rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-sm);
+  padding: 1px 7px;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
 .info {
-  color: #94a3b8;
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
 .error {
-  color: #dc2626;
+  color: var(--color-danger-text);
   font-size: 0.85rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.875rem;
   margin: 0;
 }

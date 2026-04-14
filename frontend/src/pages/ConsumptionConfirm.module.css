@@ -1,51 +1,35 @@
 .page {
-  min-height: 100vh;
-  background: #f1f5f9;
+  padding: 2rem 2.5rem;
+  max-width: 520px;
 }
 
-.header {
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.toolbar {
+  margin-bottom: 1.5rem;
 }
 
-.back {
-  color: #3b82f6;
-  font-size: 0.9rem;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.back:hover {
-  text-decoration: underline;
-}
-
-.title {
-  font-size: 1.3rem;
+.pageTitle {
+  font-size: 1.45rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
-.main {
-  padding: 2rem 1rem;
-  max-width: 480px;
-  margin: 0 auto;
+.content {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* Cartão de lote */
+/* ── Batch info card ─────────────────────────────────── */
+
 .batchCard {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
   padding: 1.5rem;
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--color-primary);
 }
 
 .batchCardBlocked {
@@ -55,13 +39,13 @@
 .productName {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0 0 1rem;
 }
 
 .batchMeta {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   flex-wrap: wrap;
 }
 
@@ -72,50 +56,63 @@
 }
 
 .metaLabel {
-  font-size: 0.75rem;
-  color: #94a3b8;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .metaValue {
   font-size: 1rem;
-  font-weight: 600;
-  color: #1e293b;
+  font-weight: 700;
+  color: var(--color-text);
 }
 
 .badge {
   display: inline-block;
-  padding: 0.2rem 0.55rem;
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   margin-top: 2px;
 }
 
-.ok { background: #dcfce7; color: #166534; }
-.warning { background: #fef9c3; color: #854d0e; }
-.expired { background: #fee2e2; color: #991b1b; }
+.ok {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.expired {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
 
 .blockedMsg {
   margin: 1rem 0 0;
-  font-size: 0.85rem;
-  color: #dc2626;
-  background: #fef2f2;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-danger-text);
+  background: var(--color-danger-bg);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.875rem;
 }
 
-/* Formulário */
+/* ── Form ────────────────────────────────────────────── */
+
 .form {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.125rem;
 }
 
 .label {
@@ -123,111 +120,131 @@
   flex-direction: column;
   gap: 0.4rem;
   font-size: 0.85rem;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 .input {
   padding: 0.75rem 0.9rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1.15rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .input:focus {
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
 }
 
 .error {
-  color: #dc2626;
+  color: var(--color-danger-text);
   font-size: 0.85rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.875rem;
   margin: 0;
 }
 
 .employeeFound {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #16a34a;
+  color: var(--color-success-text);
 }
 
 .employeeError {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #dc2626;
+  color: var(--color-danger-text);
 }
 
 .footer {
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .btnCancel {
-  padding: 0.65rem 1.2rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  color: #374151;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
-.btnCancel:hover { background: #f9fafb; }
+.btnCancel:hover {
+  background: var(--color-surface-hover);
+}
 
 .btnConfirm {
   padding: 0.65rem 1.5rem;
-  background: #3b82f6;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
-.btnConfirm:hover:not(:disabled) { background: #2563eb; }
-.btnConfirm:disabled { opacity: 0.6; cursor: not-allowed; }
+.btnConfirm:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
 
-/* Sucesso */
+.btnConfirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Success state ───────────────────────────────────── */
+
 .successBox {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin-top: 3rem;
+  padding: 3rem 1.5rem;
   text-align: center;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .successIcon {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: #dcfce7;
-  color: #16a34a;
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
   font-size: 2.2rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid var(--color-success-border);
 }
 
 .successTitle {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0;
 }
 
 .successSub {
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
   margin: 0;
 }
@@ -242,39 +259,46 @@
 
 .btnPrimary {
   padding: 0.65rem 1.4rem;
-  background: #3b82f6;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s;
+  display: inline-block;
 }
 
-.btnPrimary:hover { background: #2563eb; }
+.btnPrimary:hover {
+  background: var(--color-primary-hover);
+}
 
 .btnSecondary {
   padding: 0.65rem 1.4rem;
   background: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
-.btnSecondary:hover { background: #f9fafb; }
+.btnSecondary:hover {
+  background: var(--color-surface-hover);
+}
 
-/* Sem dados */
+/* ── No data ─────────────────────────────────────────── */
+
 .noData {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
   margin-top: 4rem;
-  color: #64748b;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
 }

@@ -35,7 +35,6 @@ export default function ConsumptionForm() {
     api.get('/inventory/batches/')
       .then(({ data }) => {
         const all = data.results ?? data
-        // exibe apenas lotes com estoque e não vencidos
         const available = all.filter((b) => {
           const exp = new Date(b.expiration_date + 'T00:00:00')
           const today = new Date()
@@ -99,24 +98,28 @@ export default function ConsumptionForm() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.back} to="/lotes">← Lotes</Link>
-        <h1 className={styles.title}>Registrar Consumo Manual</h1>
-      </header>
+      <div className={styles.breadcrumb}>
+        <Link className={styles.back} to="/lotes">Lotes</Link>
+        <span className={styles.breadcrumbSep}>/</span>
+        <span>Registrar Consumo</span>
+      </div>
 
-      <main className={styles.main}>
-        <p className={styles.hint}>
-          Use este formulário para registrar um consumo que ocorreu anteriormente
-          e ainda não foi registrado no sistema.
-        </p>
+      <div className={styles.toolbar}>
+        <h1 className={styles.pageTitle}>Registrar Consumo Manual</h1>
+      </div>
 
+      <p className={styles.hint}>
+        Use este formulário para registrar um consumo que ainda não foi registrado no sistema.
+      </p>
+
+      <div className={styles.formWrapper}>
         <form className={styles.card} onSubmit={handleSubmit}>
           {error && <p className={styles.error}>{error}</p>}
 
           <label className={styles.label}>
             Lote
             {loadingBatches ? (
-              <span className={styles.loading}>Carregando lotes...</span>
+              <span className={styles.loadingText}>Carregando lotes...</span>
             ) : (
               <>
                 <input
@@ -151,12 +154,7 @@ export default function ConsumptionForm() {
           {activeBatch && (
             <div className={styles.batchInfo}>
               <span>Disponível: <strong>{activeBatch.quantity}</strong></span>
-              <span>
-                Validade:{' '}
-                <strong>
-                  {new Date(activeBatch.expiration_date + 'T00:00:00').toLocaleDateString('pt-BR')}
-                </strong>
-              </span>
+              <span>Validade: <strong>{new Date(activeBatch.expiration_date + 'T00:00:00').toLocaleDateString('pt-BR')}</strong></span>
             </div>
           )}
 
@@ -202,7 +200,7 @@ export default function ConsumptionForm() {
             </button>
           </div>
         </form>
-      </main>
+      </div>
     </div>
   )
 }

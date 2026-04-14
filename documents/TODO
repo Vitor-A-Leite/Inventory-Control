@@ -90,8 +90,8 @@
 ✔ [ ] Destaque visual (cores/avisos) @done(26-03-25 17:42)
 
 ## Semana 11 — Docker e Deplo☐ [ ] Dockerfile frontend
-☐ [ ] Dockerfile backend
-☐ [ ] docker-compose.yml
+✔ [ ] Dockerfile backend @done(26-03-30 21:37)
+✔ [ ] docker-compose.yml @done(26-03-30 21:37)
 - [ ] Subir sistema completo
 - [ ] Preparar deploy
 

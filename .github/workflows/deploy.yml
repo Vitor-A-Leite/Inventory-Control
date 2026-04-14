@@ -1,0 +1,81 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  # ── 1. Build e publica as imagens Docker ──────────────────
+  build:
+    name: Build images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login no GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build e push — backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/backend:${{ env.IMAGE_TAG }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/backend:latest
+
+      - name: Build e push — frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile.prod
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/frontend:${{ env.IMAGE_TAG }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/frontend:latest
+
+  # ── 2. Deploy em cada cliente ─────────────────────────────
+  deploy:
+    name: Deploy — ${{ matrix.client }}
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Adicione novos clientes aqui
+        client: [cerro-azul]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets[format('{0}_HOST', matrix.client)] }}
+          username: ${{ secrets[format('{0}_USER', matrix.client)] }}
+          key: ${{ secrets[format('{0}_SSH_KEY', matrix.client)] }}
+          script: |
+            cd /opt/inventory/${{ matrix.client }}
+
+            # Atualiza as imagens
+            export IMAGE_TAG=${{ env.IMAGE_TAG }}
+            export GITHUB_REPOSITORY=${{ github.repository }}
+
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            # Remove imagens antigas
+            docker image prune -f

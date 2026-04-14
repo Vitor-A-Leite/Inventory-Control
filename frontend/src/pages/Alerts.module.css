@@ -1,94 +1,60 @@
 .page {
-  min-height: 100vh;
-  background: #f1f5f9;
-}
-
-.header {
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem 2rem;
+  padding: 2rem 2.5rem;
+  max-width: 1100px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.title {
-  font-size: 1.4rem;
+/* ── Toolbar ─────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pageTitle {
+  font-size: 1.45rem;
   font-weight: 700;
-  color: #1e293b;
-  margin: 0;
+  color: var(--color-text);
+  margin: 0 0 2px;
+  letter-spacing: -0.02em;
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
-.badge {
-  background: #ef4444;
+.alertCount {
+  background: var(--color-danger-text);
   color: #fff;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
   border-radius: 999px;
-  padding: 0.15rem 0.55rem;
+  padding: 2px 8px;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.pageDesc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
-.username { color: #64748b; font-size: 0.9rem; }
+/* ── Config panel ────────────────────────────────────── */
 
-.btnSecondary {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btnSecondary:hover { background: #f9fafb; }
-
-.btnLogout {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #ef4444;
-  border: 1px solid #fca5a5;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btnLogout:hover { background: #fef2f2; }
-
-/* Main */
-.main {
-  padding: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Config panel */
 .configPanel {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   padding: 1rem 1.5rem;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 .configLabel {
   font-size: 0.9rem;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 500;
+  color: var(--color-text-secondary);
   margin: 0;
   display: flex;
   align-items: center;
@@ -105,50 +71,78 @@
 .configInput {
   width: 70px;
   padding: 0.35rem 0.6rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
   outline: none;
   text-align: center;
   transition: border-color 0.2s;
 }
-.configInput:focus { border-color: #3b82f6; }
 
-.configUnit { font-size: 0.9rem; color: #374151; }
+.configInput:focus {
+  border-color: var(--color-primary);
+}
+
+.configUnit {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
 
 .btnSaveConfig {
   padding: 0.35rem 0.9rem;
-  background: #3b82f6;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 }
-.btnSaveConfig:hover:not(:disabled) { background: #2563eb; }
-.btnSaveConfig:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.configOk  { font-size: 0.82rem; color: #16a34a; font-weight: 600; }
-.configErr { font-size: 0.82rem; color: #dc2626; font-weight: 600; }
+.btnSaveConfig:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
 
-/* All good */
+.btnSaveConfig:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.configOk {
+  font-size: 0.82rem;
+  color: var(--color-success-text);
+  font-weight: 600;
+}
+
+.configErr {
+  font-size: 0.82rem;
+  color: var(--color-danger-text);
+  font-weight: 600;
+}
+
+/* ── All good ────────────────────────────────────────── */
+
 .allGood {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   padding: 3rem;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  color: #16a34a;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  color: var(--color-success-text);
   font-weight: 600;
+  font-size: 0.9rem;
 }
-.allGoodIcon { font-size: 2rem; }
 
-/* Sections */
+.allGoodIcon {
+  font-size: 2rem;
+}
+
+/* ── Sections ────────────────────────────────────────── */
+
 .section {
   display: flex;
   flex-direction: column;
@@ -156,88 +150,107 @@
 }
 
 .sectionTitle {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   margin: 0;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
 }
 
-.expired { background: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444; }
-.warning { background: #fffbeb; color: #92400e; border-left: 4px solid #f59e0b; }
+.sectionExpired {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border-left: 4px solid #ef4444;
+}
 
-/* Table */
+.sectionWarning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border-left: 4px solid #f59e0b;
+}
+
+/* ── Table ───────────────────────────────────────────── */
+
+.tableWrapper {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  background: var(--color-surface);
 }
 
 .table th {
   background: #f8fafc;
-  color: #475569;
-  font-size: 0.78rem;
-  font-weight: 700;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   padding: 0.75rem 1rem;
   text-align: left;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border);
   white-space: nowrap;
 }
 
 .table td {
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.88rem;
-  color: #1e293b;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
 
-.table tr:last-child td { border-bottom: none; }
+.table tr:last-child td {
+  border-bottom: none;
+}
 
-.row_expired { background: #fff5f5; }
-.row_expired:hover { background: #fef2f2; }
-.row_warning { background: #fffdf0; }
-.row_warning:hover { background: #fffbeb; }
+.nameCell {
+  font-weight: 500;
+  color: var(--color-text) !important;
+}
 
-/* Tags */
+/* ── Status tags ─────────────────────────────────────── */
+
 .tagExpired {
   display: inline-block;
-  padding: 0.2rem 0.6rem;
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border: 1px solid var(--color-danger-border);
 }
 
 .tagWarning {
   display: inline-block;
-  padding: 0.2rem 0.6rem;
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  background: #fffbeb;
-  color: #d97706;
-  border: 1px solid #fde68a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  border: 1px solid var(--color-warning-border);
 }
 
-/* Misc */
+/* ── Misc ────────────────────────────────────────────── */
+
 .info {
-  color: #64748b;
+  color: var(--color-text-muted);
   text-align: center;
   padding: 2rem;
+  font-size: 0.9rem;
 }
 
 .errorMsg {
-  color: #dc2626;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.85rem;
+  color: var(--color-danger-text);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.875rem;
+  font-size: 0.875rem;
 }
